@@ -20,6 +20,7 @@ class Order(models.Model):
     period = models.IntegerField()
     register_date = models.DateTimeField(auto_now_add=True)
     filename = models.CharField(max_length=255)
+    price = models.IntegerField(null=True)
 
     objects = OrderManager()
 

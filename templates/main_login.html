@@ -10,6 +10,11 @@
     float : left;
     }
 
+    .mainInfo{
+    width:1000px;
+    margin: 0 auto;
+    }
+
     .mainInfoDetail{
     padding-left : 50px;
     float : left;
@@ -127,33 +132,35 @@
 
 {% endblock %}
 {% block content %}
-    <div class="mainInfo" style="background-color: #FFFFEE">
-        <legend></legend>
-        <img class="defaultimage" src="/static/default.png">
-        <div class="mainInfoDetail">
-            <h3> {{user.customer.nickname}}님 반갑습니다! </h3>
-            <div class="statusboxgroup">
-                <div class="statusbox">
-                    </br>
-                    <p>1</p>
-                    <p>구매중</p>
-                </div>
-                <div class="statusbox">
-                    </br>
-                    <p>1</p>
-                    <p>진행중</p>
-                </div>
-                <div class="statusbox">
-                    </br>
-                    <p>1</p>
-                    <p>완료</p>
+    <div style="background-color: #FFFFEE">
+        <div class="mainInfo" >
+            <legend></legend>
+            <img class="defaultimage" src="/static/default.png">
+            <div class="mainInfoDetail">
+                <h3> {{user.customer.nickname}}님 반갑습니다! </h3>
+                <div class="statusboxgroup">
+                    <div class="statusbox">
+                        </br>
+                        <p>1</p>
+                        <p>구매중</p>
+                    </div>
+                    <div class="statusbox">
+                        </br>
+                        <p>1</p>
+                        <p>진행중</p>
+                    </div>
+                    <div class="statusbox">
+                        </br>
+                        <p>1</p>
+                        <p>완료</p>
+                    </div>
                 </div>
             </div>
+            <div class="mainInfoDetail2">
+                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1);">+새로운 의뢰 추가</button>
+            </div>
+            <legend></legend>
         </div>
-        <div class="mainInfoDetail2">
-            <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1);">+새로운 의뢰 추가</button>
-        </div>
-        <legend></legend>
     </div>
     <div class="orderInfoDiv">
         <h4>나의 의뢰</h4>
@@ -178,15 +185,15 @@
                         <td></td>
                         <td>
                             {% if order.status < 4 %}
-                            구매중
+                                구매중
                             {% elif order.status == 4 %}
-                            진행중
+                                진행중
                             {% else %}
-                            완료
+                                완료
                             {% endif %}
                         </td>
                         <td>{{order.translater.nickname}}</td>
-                        <td>100,000</td>
+                        <td>{{order.price }}</td>
                     </tr>
                 {% endfor %}
 

@@ -10,11 +10,13 @@
     }
 
     .cameroImageStatus{
+    margin : 0 auto;
     width : 1000px;
     height : 100px;
     }
 
     .myStatus{
+    margin : 0 auto;
     width : 1000px;
     height : 100px;
 
@@ -45,8 +47,19 @@
     }
 
     .resultTitle{
+    margin : 0 auto;
     padding-top:20px;
     height : 150px;
+    width : 1000px;
+    }
+
+    .statusDiv{
+    margin : 0 auto;
+    width : 1000px;
+    }
+
+    .reviewDiv{
+    margin-top:20px;
     }
 
     .reviewInput{
@@ -144,7 +157,7 @@
     }
 
 
-    function getStatus())
+    function getStatus()
     {
     console.log("H");
     window.location.href="/a";
@@ -180,7 +193,7 @@
         </div>
         <legend></legend>
 
-        <div>
+        <div class="statusDiv">
             <div class="jumbotron resultTitle">
                 <p style="font-size: 15px;">
                     <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> SOP.hwp<br>
@@ -190,8 +203,8 @@
                     <span style="font-weight:bold; padding-left: 20px;">번역료 :</span> 27,000원<br>
                 </p>
             </div>
-            <p>translator1988 번역가님에 대해 리뷰를 입력해주세요</p>
-            <div>
+            <div class="reviewDiv">
+                <p>translator1988 번역가님에 대해 리뷰를 입력해주세요</p>
                 <input id="transcount" type="text" class="form-control reviewInput">
                 <button type="button" class="btn btn-success reviewBtn" onclick="javascript:Ask();">입력</button>
             </div>
