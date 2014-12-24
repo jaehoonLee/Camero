@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}홈{% endblock %}
+{% block css %}
+    .defaultimage
+    {
+    width : 100px;
+    height : 60px;
+    margin-left : 150px;
+    margin-bottom : 50px;
+    }
+
+    .cameroImageStatus{
+    width : 1000px;
+    height : 100px;
+    }
+
+    .myStatus{
+    width : 1000px;
+    height : 100px;
+
+    }
+
+    .statusBox{
+    margin-left : 150px;
+    padding-top:20px;
+    width : 100px;
+    height : 100px;
+    background-color : #66cdaa;
+    text-align : center;
+    float : left;
+    }
+
+    .statusBoxMiddle{
+    margin-left:50px;
+    padding-top:20px;
+    width : 100px;
+    height : 100px;
+    background-color : #EEEEEE;
+    text-align : center;
+    float : left;
+    }
+
+    .resultTitle{
+    padding-top:20px;
+    height : 190px;
+    }
+
+    .defaultImage2{
+    width:100px;
+    height:100px;
+    float:left;
+    }
+
+    .clientChat{
+    margin-left:20px;
+    width : 880px;
+    min-height:120px;
+    float:left;
+    padding-top:20px;
+    }
+
+    .chat{
+    margin-top:20px;
+    }
+
+    .defaultImage3{
+    width:100px;
+    height:100px;
+    float:right;
+    }
+
+    .translaterChat{
+    width : 880px;
+    min-height:120px;
+    float:left;
+    padding-top:20px;
+    }
+
+    .chatInput{
+    width : 880px;
+    float : left;
+    }
+
+    .chatBtn{
+    width : 100px;
+    margin-left:20px;
+    float : left;
+    }
+
+    .transCompleteBtnDiv{
+    padding-top:50px;
+    width:1000px;
+    height: 200px;
+    float : left;
+    }
+
+    .transCompleteBtn{
+    width : 1000px;
+    height: 50px;
+    }
+{% endblock %}
+{% block javascript %}
+    function Original(lang)
+    {
+    var btn = document.getElementById("originalLang");
+    var btn2 = document.getElementById("changeLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+
+    return 0;
+    }
+
+    function ChangeLang(lang)
+    {
+    var btn = document.getElementById("changeLang");
+    var btn2 = document.getElementById("originalLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+    return 0;
+    }
+
+    var client = new XMLHttpRequest();
+
+    function FileBrowse()
+    {
+    var file_upload_btn = document.getElementById("file_upload_btn");
+    var file = document.getElementById("file_upload_input");
+
+    $("#file_upload_input").click();
+    $("#file_upload_input").change(function() {
+    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
+
+    /* Create a FormData instance */
+    var formData = new FormData();
+    /* Add the file */
+    formData.append("file", file.files[0]);
+
+    client.open("POST", "/calculate_budget/", true);
+    client.send(formData);
+
+    });
+    }
+
+
+    client.onreadystatechange = function()
+    {
+    if (client.readyState == 4 && client.status == 200)
+    {
+    var obj = JSON.parse(client.responseText);
+    $("#amountMoney").val(obj.budget);
+    $("#transcount").val(obj.transcount);
+
+    console.log(client.responseText);
+    }
+    }
+
+
+    function getStatus())
+    {
+    console.log("H");
+    window.location.href="/a";
+    }
+
+{% endblock %}
+{% block content %}
+    <div class="mainInfo" style="background-color: #FFFFEE">
+        <legend></legend>
+        <div class="cameroImageStatus">
+            <img class="defaultimage" src="/static/logo.jpg">
+        </div>
+        <div class="myStatus">
+            <div class="statusBox" style="background-color:#EEEEEE;">
+                <p>견적</p>
+                <p>확인</p>
+            </div>
+            <div class="statusBoxMiddle">
+                <p>번역가</p>
+                <p>협상</p>
+            </div>
+            <div class="statusBoxMiddle" style="padding-top:35px;">
+                <p>결제</p>
+            </div>
+            <div class="statusBoxMiddle" style="background-color:#66cdaa;">
+                <p>번역물</p>
+                <p>수령</p>
+            </div>
+            <div class="statusBoxMiddle">
+                <p>변역</p>
+                <p>완료</p>
+            </div>
+        </div>
+        <legend></legend>
+    </div>
+    <div>
+        <div class="jumbotron resultTitle">
+            <p style="font-size: 15px;">
+                <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> SOP.hwp<br>
+                <span style="font-weight:bold; padding-left: 20px;">번역 기간 :</span> 12-16-2014 5:23PM<br>
+                <span style="font-weight:bold; padding-left: 20px;">잔여 시간 :</span><br>
+            <div style="text-align:center;">
+                <span style="font-weight:bold; font-size:40px;">4:21:10</span>
+            </div>
+            </p>
+        </div>
+        <div>
+            <img class="defaultImage2" src="/static/default.png">
+            <div class="jumbotron clientChat">
+                <span style="padding-left: 20px;">의뢰인 :</span>CLIENT1988<span style="padding-left: 550px;"> 12-16-2014 5:23PM</span></br>
+                <div class="chat">
+                    <span style="padding-left: 20px;">잘 부탁드립니다.</span></br>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="jumbotron translaterChat">
+                <span style="padding-left: 20px;">의뢰인 :</span>TRANSLATER1988<span style="padding-left: 500px;"> 12-16-2014 10:23PM</span></br>
+                <div class="chat">
+                    <span style="padding-left: 20px;">문서가 완료 되었습니다.</span><br>
+                </div>
+            </div>
+            <img class="defaultImage3" src="/static/default.png">
+        </div>
+        <div>
+            <input id="transcount" type="text" class="form-control chatInput">
+            <button type="button" class="btn btn-success chatBtn" onclick="javascript:Ask();">입력</button>
+        </div>
+        <div class="transCompleteBtnDiv">
+            <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:TranslaterSignUpSubmit();">번역물 수령 완료</button>
+        </div>
+    </div>
+
+
+
+{% endblock %}

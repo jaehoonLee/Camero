@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}홈{% endblock %}
+{% block css %}
+    .defaultimage
+    {
+    width : 200px;
+    height : 200px;
+    margin-left : 50px;
+    margin-bottom : 50px;
+    float : left;
+    }
+
+    .mainInfoDetail{
+    padding-left : 50px;
+    float : left;
+    width : 700px;
+    height : 350px;
+    }
+
+    .infoInput{
+    width : 310px;
+    }
+
+    .infoText{
+    float:left;
+    margin-top:7px;
+    margin-right:20px;
+    width:90px;
+    }
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}
+{% block content %}
+
+    <div class="mainInfo" style="background-color: #FFFFEE">
+        <legend></legend>
+        <img class="defaultimage" src="/static/default.png">
+        <div class="mainInfoDetail">
+            <p style="font-size:20px;"> 회원정보 변경 </p>
+            <p class="infoText"> 아이디 </p> <input type="text" class="form-control infoInput" name="username"></br>
+            <p class="infoText"> 이메일 </p> <input type="text" class="form-control infoInput" name="username"></br></br>
+
+            <p style="font-size:20px;"> 비밀번호 변경 </p>
+            <p class="infoText"> 비밀번호 </p> <input type="password" class="form-control infoInput" name="password"></br>
+            <p class="infoText"> 비밀번호 확인 </p> <input type="password" class="form-control infoInput" name="passwordCheck">
+        </div>
+        <legend></legend>
+    </div>
+{% endblock %}

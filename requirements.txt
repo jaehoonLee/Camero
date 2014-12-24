@@ -1,0 +1,2 @@
+python-docx==0.7.5
+pyhwp==0.1b8

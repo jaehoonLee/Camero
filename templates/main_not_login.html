@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% block title %}홈{% endblock %}
+{% block css %}
+    .translateCal {
+    width : 1000px;
+    height : 500px;
+    padding-top : 40px;
+    }
+
+    .logoimagediv{
+    float : left;
+    width : 200px;
+    height : 500px;
+    margin-right : 20px;
+    }
+
+    .logoimage {
+    width : 200px;
+    height : 100px;
+
+    }
+
+    .calculateTrans{
+    width : 800px;
+    height : 500px;
+    }
+
+    .transcaldiv {
+    float:left;
+    margin-right : 20px;
+    }
+
+    .transcaltext{
+    width : 200px;
+    }
+
+    .transcalfile{
+    width : 640px;
+    }
+
+    .transcalresult{
+    width : 310px;
+    }
+
+    .transcalbtn {
+    width : 640px;
+    height : 50px;
+    font-size : 20px;
+    margin-top : 25px;
+    }
+
+    .transcalbtndiv{
+
+    }
+{% endblock %}
+{% block javascript %}
+    function Original(lang)
+    {
+    var btn = document.getElementById("originalLang");
+    var btn2 = document.getElementById("changeLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+
+    return 0;
+    }
+
+    function ChangeLang(lang)
+    {
+    var btn = document.getElementById("changeLang");
+    var btn2 = document.getElementById("originalLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+    return 0;
+    }
+
+    var client = new XMLHttpRequest();
+
+    function FileBrowse()
+    {
+    var file_upload_btn = document.getElementById("file_upload_btn");
+    var file = document.getElementById("file_upload_input");
+
+    $("#file_upload_input").click();
+    $("#file_upload_input").change(function() {
+    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
+
+    /* Create a FormData instance */
+    var formData = new FormData();
+    /* Add the file */
+    formData.append("file", file.files[0]);
+
+    client.open("POST", "/calculate_budget/", true);
+    client.send(formData);
+
+    });
+    }
+
+
+    client.onreadystatechange = function()
+    {
+    if (client.readyState == 4 && client.status == 200)
+    {
+    var obj = JSON.parse(client.responseText);
+    $("#amountMoney").val(obj.budget);
+    $("#transcount").val(obj.transcount);
+
+    console.log(client.responseText);
+    }
+    }
+
+{% endblock %}
+{% block content %}
+
+    <div class="translateCal">
+        <div class="logoimagediv">
+            <img class="logoimage" src="/static/logo.jpg">
+        </div>
+        <div class="calculateTrans">
+            <ul id="myTab" class="nav nav-tabs" role="tablist" style="width:870px; height:45px;">
+                <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">번역 서비스</a></li>
+                <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">교정 서비스</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content" style="width:900px; height:500px;">
+                <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
+                    <h2>무슨 번역을 원하세요?</h2>
+                    <div class="transcaldiv">
+                        <h3>원문</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle transcaltext" type="button" id="originalLang" data-toggle="dropdown" aria-expanded="true">
+                                영어
+                            </button>
+                            <ul class="dropdown-menu transcaltext" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:Original(0);">영어</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:Original(1);">한국어</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="transcaldiv">
+                        <h3>번역문</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle transcaltext" type="button" id="changeLang" data-toggle="dropdown" aria-expanded="true">
+                                한국어
+                            </button>
+                            <ul class="dropdown-menu transcaltext" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:ChangeLang(0);">영어</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:ChangeLang(1);">한국어</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="transcaldiv">
+                        <h3>번역기간</h3>
+                        <input type="text" class="form-control transcaltext">
+                    </div>
+                    <br>
+                    <div class="transcaldiv">
+                        <h3>의뢰물 올리기</h3>
+                        <button type="button" id="file_upload_btn" class="btn btn-default transcalfile" onclick="javascript:FileBrowse();">파일 업로드</button>
+                    </div>
+                    <br>
+                    <div class="transcaldiv">
+                        <h3>예상번역 견적</h3>
+                        <input id="amountMoney" type="text" class="form-control transcalresult">
+                    </div>
+                    <div class="transcaldiv">
+                        <h3>나에게 맞는 번역사 수</h3>
+                        <input id="transcount" type="text" class="form-control transcalresult">
+                    </div>
+                    <div class="transcalbtndiv">
+                        <button type="button" class="btn btn-success transcalbtn" onclick="javascript:Login();">의뢰하러가기!</button>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledBy="profile-tab">
+                    <h2>무슨 교정을 원하세요?</h2>
+                    <div class="transcaldiv">
+                        <h3>교정문</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle transcalresult" type="button" id="originalLang" data-toggle="dropdown" aria-expanded="true">
+                                영어
+                            </button>
+                            <ul class="dropdown-menu transcalresult" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:Original(0);">영어</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:Original(1);">한국어</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="transcaldiv">
+                        <h3>번역기간</h3>
+                        <input type="text" class="form-control transcalresult">
+                    </div>
+                    <br>
+                    <div class="transcaldiv">
+                        <h3>의뢰물 올리기</h3>
+                        <button type="button" id="file_upload_btn" class="btn btn-default transcalfile" onclick="javascript:FileBrowse();">파일 업로드</button>
+                    </div>
+                    <br>
+                    <div class="transcaldiv">
+                        <h3>예상번역 견적</h3>
+                        <input id="amountMoney" type="text" class="form-control transcalresult">
+                    </div>
+                    <div class="transcaldiv">
+                        <h3>나에게 맞는 번역사 수</h3>
+                        <input id="transcount" type="text" class="form-control transcalresult">
+                    </div>
+                    <div class="transcalbtndiv">
+                        <button type="button" class="btn btn-success transcalbtn" onclick="javascript:Login();">의뢰하러가기!</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <form id="file_upload_form" name="file_upload" action="/hello" method="POST" enctype="multipart/form-data">
+        <input type="file" id="file_upload_input" name="file" style="display:none;">
+    </form>
+
+{% endblock %}

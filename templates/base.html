@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+        html, body {
+            height:100%;
+        }
+
+        body,table/*,input,textarea,select,button*/{font-family:'NanumGothic';}
+
+        .footer
+        {
+            text-align :center;
+            margin-top : 10px;
+            padding-top : 10px;
+            height : 50px;
+
+        }
+
+        .footer-label
+        {
+            color : #000000;
+        }
+
+        .mainbody {
+            margin: 0 auto;
+            max-width: 1000px;
+            min-height : 80%;
+            height : auto !important;
+            height : 80%;
+        }
+
+        .container {
+            margin : 0px;
+            padding : 0px;
+            width : 100%;
+
+        }
+
+        .navbar {
+            background-color : #00A600;
+            height : 70px;
+        }
+
+        .navbar-header {
+            margin-top : 20px;
+        }
+
+        .navbar-collapse{
+            margin-top : 10px;
+        }
+
+        .logo {
+            font-size : 20px;
+            color : white;
+            text-align : center;
+        }
+
+        .nav-right-text{
+            font-size : 16px;
+            color : white;
+        }
+
+        .nav-right-text:hover{
+            background-color: transparent;
+            color : blue;
+        }
+
+        .passwordText{
+            padding-top: 10px;
+        }
+
+        .savecheckbox{
+            margin-top: 20px;;
+
+        }
+
+        {% block css %}{% endblock %}
+    </style>
+
+    <script type="text/javascript">
+
+        function CustomerSignUp()
+        {
+            console.log("aaaa");
+            $("#customerSignUpModal").modal();
+        }
+
+        function TranslaterSignUp()
+        {
+            $("#translaterSignUpModal").modal();
+        }
+
+        function Login()
+        {
+            $("#loginModal").modal();
+        }
+
+        function Logout()
+        {
+            document.LogoutForm.submit();
+        }
+
+        function LoginSubmit()
+        {
+            /*
+             if(document.LoginForm.username.value == "")
+             {
+             alert('아이디를 입력하지 않으셨습니다.');
+             return;
+             }
+             else if(document.LoginForm.password.value =="")
+             {
+             alert('패스워드를 입력하지 않으셨습니다.');
+             return;
+             }
+             */
+            document.LoginForm.submit();
+        }
+
+        function CustomerSignUpSubmit()
+        {
+            document.CustomerSignUpForm.submit();
+        }
+
+        function TranslaterSignUpSubmit()
+        {
+            document.TranslaterSignUpForm.submit();
+        }
+
+        {% block javascript %}{% endblock %}
+    </script>
+</head>
+<body>
+<div class="container">
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="logo"  href="/">Camero.co.kr</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+
+                    {% if user.customer.nickname %}
+                        <li><a href="/myinfo_page"><span class="nav-right-text">내정보</span></a></li>
+                        <li><a href="javascript:Logout();"><span class="nav-right-text">로그아웃</span></a></li>
+                    {% elif user.translater.nickname %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle nav-right-text" data-toggle="dropdown" role="button" aria-expanded="false">{{user.translater.nickname}}님</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="nav-right-text" href="/myinfo_page">마이 페이지</a></li>
+                                <li><a class="nav-right-text" href="javascript:Logout();">로그아웃</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="nav-right-text" href="javascript:Login();">로그인</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <!-- Main component for a primary marketing message or call to action
+    <div class="jumbotron">
+            <h1>Navbar example</h1>
+            <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+            <p>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
+        </div>
+                -->
+
+</div> <!-- /container -->
+<div class="mainbody">
+    {% block content %}{% endblock %}
+</div>
+
+<div class="footer" style="width:100%; height:100px; margin:0 auto; float:left;">
+    <p class="footer-label" style="width:100%;"  >&copy; Camero 2014</p>
+</div>
+
+<!-- SignIn Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">로그인</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="form-signin" NAME="LoginForm" action="/login_user/"> {% csrf_token %}
+                    <p> 이메일 아이디 </p>
+                    <input type="text" class="form-control transcalresult" name="username">
+                    <p class="passwordText"> 비밀번호 </p>
+                    <input type="password" class="form-control transcalresult" name="password">
+                    <div class="savecheckbox">
+                        <label>
+                            <input type="checkbox" name="remember" value="true"> 1주일간 정보를 기억합니다.
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="javascript:LoginSubmit();">로그인</button>
+                <button type="button" class="btn btn-primary" onclick="javascript:CustomerSignUp();">고객으로 가입</button>
+                <button type="button" class="btn btn-primary" onclick="javascript:TranslaterSignUp();">번역자로 가입</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customer SignUp Modal -->
+<div class="modal fade" id="customerSignUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">고객으로 회원 가입</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="form-signin" name="CustomerSignUpForm" action="/customer_register_user/"> {% csrf_token %}
+                    <p> 이메일 아이디 </p>
+                    <input type="text" class="form-control transcalresult" name="username">
+                    <p class="passwordText"> 비밀번호 </p>
+                    <input type="password" class="form-control transcalresult" name="password">
+                    <p class="passwordText"> 비밀번호 확인</p>
+                    <input type="password" class="form-control transcalresult" name="passwordCheck">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="javascript:CustomerSignUpSubmit();">회원 가입</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Translater SignUp Modal -->
+<div class="modal fade" id="translaterSignUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">번역자로 회원 가입</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="form-signin" name="TranslaterSignUpForm" action="/translater_register_user/"> {% csrf_token %}
+                    <p> 이메일 아이디 </p>
+                    <input type="text" class="form-control transcalresult" name="username">
+                    <p class="passwordText"> 비밀번호 </p>
+                    <input type="password" class="form-control transcalresult" name="password">
+                    <p class="passwordText"> 비밀번호 확인</p>
+                    <input type="password" class="form-control transcalresult" name="passwordCheck">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="javascript:TranslaterSignUpSubmit();">회원 가입</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form name="LogoutForm" action="/logout_user/" method="GET">
+</form>
+</body>
+</html>

@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}홈{% endblock %}
+{% block css %}
+    .defaultimage
+    {
+    width : 150px;
+    height : 150px;
+    margin-left : 50px;
+    margin-bottom : 50px;
+    float : left;
+    }
+
+    .mainInfoDetail{
+    padding-left : 50px;
+    float : left;
+    width : 350px;
+    height : 200px;
+
+    }
+
+    .mainInfoDetail2{
+    width : 400px;
+    height : 200px;
+    float : left;
+    }
+
+    .statusboxgroup{
+    margin-top : 30px;
+    }
+
+    .statusbox{
+    width : 45px;
+    height : 45px;
+    float : left;
+    text-align : center;
+    margin-right : 30px;
+    }
+
+    .transbtn{
+    margin-top:100px;
+    margin-left:150px;
+    width:200px;
+    height:50px;
+    }
+
+    .orderInfoDiv{
+    width : 900px;
+    margin: 0 auto;
+    }
+
+    tr.body:hover {
+    background-color: #EEEEEE;
+    }
+{% endblock %}
+{% block javascript %}
+    function Original(lang)
+    {
+    var btn = document.getElementById("originalLang");
+    var btn2 = document.getElementById("changeLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+
+    return 0;
+    }
+
+    function ChangeLang(lang)
+    {
+    var btn = document.getElementById("changeLang");
+    var btn2 = document.getElementById("originalLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+    return 0;
+    }
+
+    var client = new XMLHttpRequest();
+
+    function FileBrowse()
+    {
+    var file_upload_btn = document.getElementById("file_upload_btn");
+    var file = document.getElementById("file_upload_input");
+
+    $("#file_upload_input").click();
+    $("#file_upload_input").change(function() {
+    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
+
+    /* Create a FormData instance */
+    var formData = new FormData();
+    /* Add the file */
+    formData.append("file", file.files[0]);
+
+    client.open("POST", "/calculate_budget/", true);
+    client.send(formData);
+
+    });
+    }
+
+
+    client.onreadystatechange = function()
+    {
+    if (client.readyState == 4 && client.status == 200)
+    {
+    var obj = JSON.parse(client.responseText);
+    $("#amountMoney").val(obj.budget);
+    $("#transcount").val(obj.transcount);
+
+    console.log(client.responseText);
+    }
+    }
+
+
+    function getStatus(order_num)
+    {
+    window.location.href="/mystatus/" + order_num + "/" ;
+    }
+
+{% endblock %}
+{% block content %}
+    <div class="mainInfo" style="background-color: #FFFFEE">
+        <legend></legend>
+        <img class="defaultimage" src="/static/default.png">
+        <div class="mainInfoDetail">
+            <h3> {{user.customer.nickname}}님 반갑습니다! </h3>
+            <div class="statusboxgroup">
+                <div class="statusbox">
+                    </br>
+                    <p>1</p>
+                    <p>구매중</p>
+                </div>
+                <div class="statusbox">
+                    </br>
+                    <p>1</p>
+                    <p>진행중</p>
+                </div>
+                <div class="statusbox">
+                    </br>
+                    <p>1</p>
+                    <p>완료</p>
+                </div>
+            </div>
+        </div>
+        <div class="mainInfoDetail2">
+            <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1);">+새로운 의뢰 추가</button>
+        </div>
+        <legend></legend>
+    </div>
+    <div class="orderInfoDiv">
+        <h4>나의 의뢰</h4>
+        <div class="panel panel-default">
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>주문날짜</th>
+                    <th>의뢰물</th>
+                    <th>결과물</th>
+                    <th>진행상황</th>
+                    <th>번역사</th>
+                    <th>가격</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr class="body" onclick="javascript:getStatus({{ order.status }})">
+                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                        <td></td>
+                        <td>
+                            {% if order.status < 4 %}
+                            구매중
+                            {% elif order.status == 4 %}
+                            진행중
+                            {% else %}
+                            완료
+                            {% endif %}
+                        </td>
+                        <td>{{order.translater.nickname}}</td>
+                        <td>100,000</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
