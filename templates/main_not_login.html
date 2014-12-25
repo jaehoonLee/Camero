@@ -1,11 +1,32 @@
 {% extends "base.html" %}
 {% block title %}홈{% endblock %}
 {% block css %}
+    .section_style {
+    background : url('../static/section_bg_2.jpg') 0px 0px fixed repeat-y;
+    z-index : 990;
+
+    }
+
+    .intro{
+    width:100%;
+    height:500px;
+    background:rgba(0,0,0,0.5);
+    color:white;
+    }
+
+    .introTitleDiv{
+    width:50%;
+    padding-top:50px;
+    padding-left:50px;
+
+    }
+
     .translateCal {
     width : 1000px;
     height : 500px;
     padding-top : 40px;
     margin : 0 auto;
+
     }
 
     .logoimagediv{
@@ -123,109 +144,121 @@
 
 {% endblock %}
 {% block content %}
-
-    <div class="translateCal">
-        <div class="logoimagediv">
-            <img class="logoimage" src="/static/logo.jpg">
+    <section class="section_style">
+        <div class="intro">
+            <div class="introTitleDiv">
+                <h1 style="font-weight:bold;">번역의 제왕 Camero</h1>
+                <h3 style="line-height:1.4em;">
+                    SOP를 누구에게 맡겨야 될지 모르겠다고요?</br>
+                    논문 표현 틀려서 교수님께 혼났다구요?</br>
+                    Camero가 당신을 지켜드립니다.
+                </h3>
         </div>
-        <div class="calculateTrans">
-            <ul id="myTab" class="nav nav-tabs" role="tablist" style="width:870px; height:45px;">
-                <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">번역 서비스</a></li>
-                <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">교정 서비스</a></li>
-            </ul>
-            <div id="myTabContent" class="tab-content" style="width:900px; height:500px;">
-                <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
-                    <h2>무슨 번역을 원하세요?</h2>
-                    <div class="transcaldiv">
-                        <h3>원문</h3>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle transcaltext" type="button" id="originalLang" data-toggle="dropdown" aria-expanded="true">
-                                영어
-                            </button>
-                            <ul class="dropdown-menu transcaltext" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:Original(0);">영어</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:Original(1);">한국어</a></li>
-                            </ul>
+
+    </section>
+
+      <!--
+        <div class="translateCal">
+            <div class="logoimagediv">
+                <img class="logoimage" src="/static/logo.jpg">
+            </div>
+            <div class="calculateTrans">
+                <ul id="myTab" class="nav nav-tabs" role="tablist" style="width:870px; height:45px;">
+                    <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">번역 서비스</a></li>
+                    <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">교정 서비스</a></li>
+                </ul>
+                <div id="myTabContent" class="tab-content" style="width:900px; height:500px;">
+                    <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
+                        <h2>무슨 번역을 원하세요?</h2>
+                        <div class="transcaldiv">
+                            <h3>원문</h3>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle transcaltext" type="button" id="originalLang" data-toggle="dropdown" aria-expanded="true">
+                                    영어
+                                </button>
+                                <ul class="dropdown-menu transcaltext" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:Original(0);">영어</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:Original(1);">한국어</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="transcaldiv">
+                            <h3>번역문</h3>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle transcaltext" type="button" id="changeLang" data-toggle="dropdown" aria-expanded="true">
+                                    한국어
+                                </button>
+                                <ul class="dropdown-menu transcaltext" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:ChangeLang(0);">영어</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:ChangeLang(1);">한국어</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="transcaldiv">
+                            <h3>번역기간</h3>
+                            <input type="text" class="form-control transcaltext">
+                        </div>
+                        <br>
+                        <div class="transcaldiv">
+                            <h3>의뢰물 올리기</h3>
+                            <button type="button" id="file_upload_btn" class="btn btn-default transcalfile" onclick="javascript:FileBrowse();">파일 업로드</button>
+                        </div>
+                        <br>
+                        <div class="transcaldiv">
+                            <h3>예상번역 견적</h3>
+                            <input id="amountMoney" type="text" class="form-control transcalresult">
+                        </div>
+                        <div class="transcaldiv">
+                            <h3>나에게 맞는 번역사 수</h3>
+                            <input id="transcount" type="text" class="form-control transcalresult">
+                        </div>
+                        <div class="transcalbtndiv">
+                            <button type="button" class="btn btn-success transcalbtn" onclick="javascript:Login();">의뢰하러가기!</button>
                         </div>
                     </div>
-                    <div class="transcaldiv">
-                        <h3>번역문</h3>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle transcaltext" type="button" id="changeLang" data-toggle="dropdown" aria-expanded="true">
-                                한국어
-                            </button>
-                            <ul class="dropdown-menu transcaltext" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:ChangeLang(0);">영어</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:ChangeLang(1);">한국어</a></li>
-                            </ul>
+                    <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledBy="profile-tab">
+                        <h2>무슨 교정을 원하세요?</h2>
+                        <div class="transcaldiv">
+                            <h3>교정문</h3>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle transcalresult" type="button" id="originalLang" data-toggle="dropdown" aria-expanded="true">
+                                    영어
+                                </button>
+                                <ul class="dropdown-menu transcalresult" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:Original(0);">영어</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:Original(1);">한국어</a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="transcaldiv">
-                        <h3>번역기간</h3>
-                        <input type="text" class="form-control transcaltext">
-                    </div>
-                    <br>
-                    <div class="transcaldiv">
-                        <h3>의뢰물 올리기</h3>
-                        <button type="button" id="file_upload_btn" class="btn btn-default transcalfile" onclick="javascript:FileBrowse();">파일 업로드</button>
-                    </div>
-                    <br>
-                    <div class="transcaldiv">
-                        <h3>예상번역 견적</h3>
-                        <input id="amountMoney" type="text" class="form-control transcalresult">
-                    </div>
-                    <div class="transcaldiv">
-                        <h3>나에게 맞는 번역사 수</h3>
-                        <input id="transcount" type="text" class="form-control transcalresult">
-                    </div>
-                    <div class="transcalbtndiv">
-                        <button type="button" class="btn btn-success transcalbtn" onclick="javascript:Login();">의뢰하러가기!</button>
+                        <div class="transcaldiv">
+                            <h3>번역기간</h3>
+                            <input type="text" class="form-control transcalresult">
+                        </div>
+                        <br>
+                        <div class="transcaldiv">
+                            <h3>의뢰물 올리기</h3>
+                            <button type="button" id="file_upload_btn" class="btn btn-default transcalfile" onclick="javascript:FileBrowse();">파일 업로드</button>
+                        </div>
+                        <br>
+                        <div class="transcaldiv">
+                            <h3>예상번역 견적</h3>
+                            <input id="amountMoney" type="text" class="form-control transcalresult">
+                        </div>
+                        <div class="transcaldiv">
+                            <h3>나에게 맞는 번역사 수</h3>
+                            <input id="transcount" type="text" class="form-control transcalresult">
+                        </div>
+                        <div class="transcalbtndiv">
+                            <button type="button" class="btn btn-success transcalbtn" onclick="javascript:Login();">의뢰하러가기!</button>
+                        </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledBy="profile-tab">
-                    <h2>무슨 교정을 원하세요?</h2>
-                    <div class="transcaldiv">
-                        <h3>교정문</h3>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle transcalresult" type="button" id="originalLang" data-toggle="dropdown" aria-expanded="true">
-                                영어
-                            </button>
-                            <ul class="dropdown-menu transcalresult" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="0" href="javascript:Original(0);">영어</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="1" href="javascript:Original(1);">한국어</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="transcaldiv">
-                        <h3>번역기간</h3>
-                        <input type="text" class="form-control transcalresult">
-                    </div>
-                    <br>
-                    <div class="transcaldiv">
-                        <h3>의뢰물 올리기</h3>
-                        <button type="button" id="file_upload_btn" class="btn btn-default transcalfile" onclick="javascript:FileBrowse();">파일 업로드</button>
-                    </div>
-                    <br>
-                    <div class="transcaldiv">
-                        <h3>예상번역 견적</h3>
-                        <input id="amountMoney" type="text" class="form-control transcalresult">
-                    </div>
-                    <div class="transcaldiv">
-                        <h3>나에게 맞는 번역사 수</h3>
-                        <input id="transcount" type="text" class="form-control transcalresult">
-                    </div>
-                    <div class="transcalbtndiv">
-                        <button type="button" class="btn btn-success transcalbtn" onclick="javascript:Login();">의뢰하러가기!</button>
-                    </div>
-                </div>
+
+
             </div>
 
-
         </div>
-
-    </div>
-
-
+        -->
     <form id="file_upload_form" name="file_upload" action="/hello" method="POST" enctype="multipart/form-data">
         <input type="file" id="file_upload_input" name="file" style="display:none;">
     </form>

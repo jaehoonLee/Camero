@@ -1,4 +1,4 @@
 .idea/
 Files/
 workspace.xml
-CameroDB
+db.sqlite3

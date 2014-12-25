@@ -31,19 +31,29 @@ def myinfo_page(request):
     else :
         return render_to_response('myinfo.html', RequestContext(request))
 
-def mystatus(request, order_num):
-    print order_num
+def makestatus(request):
+    return render_to_response('status_1.html', RequestContext(request))
+
+def mystatus(request, order_num, order_id):
+    order = Order.objects.filter(id=order_id)
+    print order[0].customer
+    print request.user.customer
+    #check user
+    if order[0].customer.user.username != request.user.username:
+        return HttpResponse("권한이 없습니다.")
+
+    print order[0].id
     type = int(order_num)
     if type == 1:
         return render_to_response('status_1.html', RequestContext(request))
     elif type == 2 or type == 3:
-        return render_to_response('status_2.html', RequestContext(request, {'type': type}))
+        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order}))
     elif type == 4:
-        return render_to_response('status_3.html', RequestContext(request))
+        return render_to_response('status_3.html', RequestContext(request, {'order': order}))
     elif type == 5:
-        return render_to_response('status_4.html', RequestContext(request))
+        return render_to_response('status_4.html', RequestContext(request, {'order': order}))
     else:
-        return render_to_response('status_5.html', RequestContext(request))
+        return render_to_response('status_5.html', RequestContext(request, {'order': order}))
 
 @csrf_exempt
 def calculate_budget(request):
@@ -120,6 +130,6 @@ def register_order(request):
             fp.close()
 
     #Save Order
-    Order.objects.create_order(type, 2, request.user.customer, originalLang, changeLang, 0, filename)
+    order = Order.objects.create_order(type, 2, request.user.customer, originalLang, changeLang, 0, filename)
 
-    return redirect("mystatus", order_num='2')
+    return redirect("mystatus", order_num='2', order_id=order.id)

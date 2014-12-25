@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     url(r'^$', main_page),
     url(r'^myinfo_page/', myinfo_page),
     url(r'^calculate_budget/', calculate_budget),
-    url(r'^mystatus/(?P<order_num>\d+)/', mystatus, name='mystatus'),
+    url(r'^makestatus/', makestatus),
+    url(r'^mystatus/(?P<order_num>\d+)/(?P<order_id>\d+)/', mystatus, name='mystatus'),
 
     # user
     url(r'^customer_register_user/', customer_register_user),

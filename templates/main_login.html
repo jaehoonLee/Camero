@@ -125,9 +125,12 @@
     }
 
 
-    function getStatus(order_num)
+    function getStatus(order_num, order_id)
     {
-    window.location.href="/mystatus/" + order_num + "/" ;
+    if(order_num == 1)
+        window.location.href="/makestatus/";
+    else
+        window.location.href="/mystatus/" + order_num + "/" + order_id + "/" ;
     }
 
 {% endblock %}
@@ -157,7 +160,7 @@
                 </div>
             </div>
             <div class="mainInfoDetail2">
-                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1);">+새로운 의뢰 추가</button>
+                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
             </div>
             <legend></legend>
         </div>
@@ -179,7 +182,7 @@
                 </thead>
                 <tbody>
                 {% for order in orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }})">
+                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
                         <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
                         <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
                         <td></td>

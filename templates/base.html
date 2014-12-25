@@ -42,32 +42,45 @@
         }
 
         .navbar {
-            background-color : #00A600;
-            height : 70px;
+            background-color : #333739;
+            height : 90px;
+            border:none !important;
+            border-radius:0px;
         }
 
         .navbar-header {
-            margin-top : 20px;
+            margin-top : 25px;
         }
 
         .navbar-collapse{
-            margin-top : 10px;
+            margin-top : 20px;
         }
 
         .logo {
-            font-size : 20px;
+            margin-left:10px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            font-size : 25px;
             color : white;
-            text-align : center;
+            text-decoration: none !important;
         }
 
+        .logo:hover{
+            color: #2ecc71;
+            transition: 0.25s;
+        }
+
+
         .nav-right-text{
-            font-size : 16px;
+            font-family: "NanumGothic";
+            font-weight : bold;
+            font-size : 17px;
             color : white;
         }
 
         .nav-right-text:hover{
-            background-color: transparent;
-            color : blue;
+            color: #2ecc71;
+            transition: 0.25s;
         }
 
         .passwordText{
@@ -147,13 +160,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="logo"  href="/">Camero.co.kr</a>
+                <a class="logo"  href="/">Camero</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
 
                     {% if user.customer.nickname %}
-                        <li><a href="/myinfo_page"><span class="nav-right-text">내정보</span></a></li>
+                        <li><a href="/myinfo_page"><span class="nav-right-text">내 정보</span></a></li>
                         <li><a href="javascript:Logout();"><span class="nav-right-text">로그아웃</span></a></li>
                     {% elif user.translater.nickname %}
                         <li class="dropdown">

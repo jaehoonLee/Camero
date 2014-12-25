@@ -29,7 +29,7 @@ class Order(models.Model):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('status', 'get_customer', 'get_translater', 'originallang', 'changedlang', 'period', 'filename', 'register_date')
+    list_display = ('id', 'status', 'get_customer', 'get_translater', 'originallang', 'changedlang', 'period', 'filename', 'register_date')
     def get_customer(self, obj):
         return obj.customer.nickname
     def get_translater(self, obj):
