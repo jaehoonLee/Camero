@@ -26,7 +26,7 @@
       <file leaf-file-name="main_login.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/main_login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="132" column="76" selection-start="2674" selection-end="2674" vertical-scroll-proportion="-9.708333" vertical-offset="1747" max-vertical-offset="3210">
+            <state line="132" column="76" selection-start="2674" selection-end="2674" vertical-scroll-proportion="-75.625" vertical-offset="165" max-vertical-offset="3210">
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -37,8 +37,10 @@
       <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="29" selection-start="1180" selection-end="1180" vertical-scroll-proportion="-13.125" vertical-offset="390" max-vertical-offset="4470">
-              <folding />
+            <state line="19" column="39" selection-start="605" selection-end="632" vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="4470">
+              <folding>
+                <element signature="n#style#0;n#p#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -46,18 +48,26 @@
       <file leaf-file-name="main_not_login.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/main_not_login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="252" column="48" selection-start="8559" selection-end="8559" vertical-scroll-proportion="0.41558442" vertical-offset="3652" max-vertical-offset="4620">
+            <state line="364" column="36" selection-start="12748" selection-end="12748" vertical-scroll-proportion="0.6856288" vertical-offset="5231" max-vertical-offset="5805">
               <folding>
                 <element signature="n#style#0;n#h1#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#1;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#2;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#3;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#section#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#form#0;n#!!top" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="crown.png" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/images/crown.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -72,15 +82,6 @@
         <entry file="file://$PROJECT_DIR$/images/logo.png">
           <provider selected="true" editor-type-id="images">
             <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="status_2.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/status_2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="20" selection-start="156" selection-end="156" vertical-scroll-proportion="-4.375" vertical-offset="0" max-vertical-offset="3930">
-              <folding />
-            </state>
           </provider>
         </entry>
       </file>
@@ -106,15 +107,6 @@
         <entry file="file://$PROJECT_DIR$/templates/status_5.html">
           <provider selected="true" editor-type-id="text-editor">
             <state line="7" column="18" selection-start="155" selection-end="155" vertical-scroll-proportion="-4.375" vertical-offset="0" max-vertical-offset="3435">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="38" selection-start="1578" selection-end="1578" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1980">
               <folding />
             </state>
           </provider>
@@ -501,10 +493,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="22" width="1233" height="778" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3206687" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3206687" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -553,7 +545,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="26" selection-start="1152" selection-end="1152" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="690">
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -562,7 +554,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="10" selection-start="430" selection-end="430" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
           <folding>
-            <element signature="e#0#51#0" expanded="true" />
+            <element signature="e#0#51#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -614,7 +606,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/main_login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="76" selection-start="2674" selection-end="2674" vertical-scroll-proportion="-9.708333" vertical-offset="1747" max-vertical-offset="3210">
+        <state line="132" column="76" selection-start="2674" selection-end="2674" vertical-scroll-proportion="-75.625" vertical-offset="165" max-vertical-offset="3210">
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
@@ -623,20 +615,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="29" selection-start="1180" selection-end="1180" vertical-scroll-proportion="-13.125" vertical-offset="390" max-vertical-offset="4470">
-          <folding />
+        <state line="19" column="39" selection-start="605" selection-end="632" vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="4470">
+          <folding>
+            <element signature="n#style#0;n#p#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/crown.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/main_not_login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="252" column="48" selection-start="8559" selection-end="8559" vertical-scroll-proportion="0.41558442" vertical-offset="3652" max-vertical-offset="4620">
+        <state line="364" column="36" selection-start="12748" selection-end="12748" vertical-scroll-proportion="0.6856288" vertical-offset="5231" max-vertical-offset="5805">
           <folding>
             <element signature="n#style#0;n#h1#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#2;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#3;n#h4#0;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#section#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#form#0;n#!!top" expanded="true" />

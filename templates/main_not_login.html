@@ -33,7 +33,7 @@
 
     .logoimagediv{
     width : 500px;
-    height : 170px;
+    height : 160px;
     margin-top : 20px;
     }
 
@@ -108,6 +108,55 @@
 
     .transcalbtndiv{
 
+    }
+
+    .service_intro_section {
+    width:100%;
+    height:400px;
+    background-color : #e3ebef;
+    }
+
+    .service_intro {
+    width : 1150px;
+    height : 400px;
+    margin : 0 auto;
+    }
+
+    .service_intro_part_1 {
+    margin-top : 25px;
+    width : 350px;
+    height : 350px;
+    background-color : white;
+    float : left;
+    }
+
+    .service_intro_part {
+    margin-top : 25px;
+    margin-left : 50px;
+    width : 350px;
+    height : 350px;
+    background-color : white;
+    float : left;
+    }
+
+    .service_intro_mark{
+    margin-top : 30px;
+    margin-left : 100px;
+    width : 150px;
+    height : 150px;
+    }
+
+    .service_intro_title{
+    margin-top:30px;
+    font-weight:bold;
+    font-size:25px;
+    text-align:center;
+    }
+
+    .service_intro_comment{
+    margin-top:25px;
+    font-size:15px;
+    text-align:center;
     }
 {% endblock %}
 {% block javascript %}
@@ -188,8 +237,9 @@
                 <h1 style="font-weight:bold;">카메로 번역서비스</h1>
                 <h4 style="line-height:2.0em; margin-top:20px;">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-right:10px;"></span> 국내 최저수수료 5%! 번역비용을 덜어드려요</br>
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-right:10px;"></span> 1시간내 최대 5명 번역가로부터 견적 문의를 받을 수 있어요!</br>
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-right:10px;"></span> 국내외 번역가들에게 맞춤 번역 의뢰 추천을 해드려요!
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-right:10px;"></span> 언제 어디서나 10시간 내 견적 문의</br>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-right:10px;"></span> 마음에 드는 전문 번역가를 최대 27명을 비교선택</br>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-right:10px;"></span> 국내외 번역가들에게 맞춤 번역 의뢰 추천을 해드려요!</br>
                 </h4>
             </div>
             <div class="translateCal">
@@ -290,7 +340,36 @@
                 </div>
 
             </div>
+        </div>
+    </section>
 
+    <section class="service_intro_section">
+        <div class="service_intro">
+        <div class="service_intro_part_1">
+            <image src="static/light.png" class="service_intro_mark"></image>
+            <h4 class="service_intro_title">Fast & Easy</h4>
+            <p class="service_intro_comment">
+                24시간 주말에도 온라인 접수가능하며<br>
+                최단 9시간내에 교정이 완료됩니다.
+            </p>
+        </div>
+        <div class="service_intro_part">
+            <image src="static/crown.png" class="service_intro_mark"></image>
+            <h4 class="service_intro_title">Best Quality</h4>
+            <p class="service_intro_comment">
+                미국 영국 주요 교정업체에서의<br>
+                검증된 에디터가 최고 품질의 서비스를 제공합니다.
+            </p>
+        </div>
+        <div class="service_intro_part">
+            <image src="static/money.png" class="service_intro_mark"></image>
+            <h4 class="service_intro_title">Best Price</h4>
+            <p class="service_intro_comment">
+                페이지 당 7,800원으로<br>
+                국내 최저가 입니다.
+            </p>
+        </div>
+        </div>
     </section>
 
 
