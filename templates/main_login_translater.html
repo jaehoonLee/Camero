@@ -128,9 +128,9 @@
     function getStatus(order_num, order_id)
     {
     if(order_num == 1)
-        window.location.href="/makestatus/";
+    window.location.href="/makestatus/";
     else
-        window.location.href="/mystatus/" + order_id + "/" ;
+    window.location.href="/mystatus/" + order_num + "/" + order_id + "/" ;
     }
 
 {% endblock %}
@@ -140,7 +140,7 @@
             <legend></legend>
             <img class="defaultimage" src="/static/default.png">
             <div class="mainInfoDetail">
-                <h3> {{user.customer.nickname}}님 반갑습니다! </h3>
+                <h3> {{user.translater.nickname}}님 반갑습니다! </h3>
                 <div class="statusboxgroup">
                     <div class="statusbox">
                         </br>
@@ -166,7 +166,7 @@
         </div>
     </div>
     <div class="orderInfoDiv">
-        <h4>나의 의뢰</h4>
+        <h4>새로운 의뢰 문의건</h4>
         <div class="panel panel-default">
             <!-- Table -->
             <table class="table">
@@ -175,7 +175,6 @@
                     <th>주문날짜</th>
                     <th>의뢰물</th>
                     <th>결과물</th>
-                    <th>진행상황</th>
                     <th>번역사</th>
                     <th>가격</th>
                 </tr>
@@ -186,15 +185,60 @@
                         <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
                         <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
                         <td></td>
-                        <td>
-                            {% if order.status < 4 %}
-                                구매중
-                            {% elif order.status == 4 %}
-                                진행중
-                            {% else %}
-                                완료
-                            {% endif %}
-                        </td>
+                        <td>{{order.translater.nickname}}</td>
+                        <td>{{order.price }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <h4>진행중인 의뢰건</h4>
+        <div class="panel panel-default">
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>주문날짜</th>
+                    <th>의뢰물</th>
+                    <th>결과물</th>
+                    <th>번역사</th>
+                    <th>가격</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
+                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                        <td></td>
+                        <td>{{order.translater.nickname}}</td>
+                        <td>{{order.price }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <h4>완료된 의뢰건</h4>
+        <div class="panel panel-default">
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>주문날짜</th>
+                    <th>의뢰물</th>
+                    <th>결과물</th>
+                    <th>번역사</th>
+                    <th>가격</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
+                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                        <td></td>
                         <td>{{order.translater.nickname}}</td>
                         <td>{{order.price }}</td>
                     </tr>
@@ -204,5 +248,6 @@
             </table>
         </div>
     </div>
+
 
 {% endblock %}

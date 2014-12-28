@@ -13,12 +13,13 @@ def main_page(request):
     if request.user.is_authenticated():
         try:
             orders = request.user.customer.order_set.all()
-
+            #고객이라면
             return render_to_response('main_login.html', RequestContext(request, {'orders': orders}))
         except:
             try:
                 request.user.translater.order_set.all()
-                return render_to_response('main_not_login.html', RequestContext(request))
+                #번역가라면
+                return render_to_response('main_login_translater.html', RequestContext(request))
             except:
                 return render_to_response('main_not_login.html', RequestContext(request))
     else :
@@ -34,26 +35,26 @@ def myinfo_page(request):
 def makestatus(request):
     return render_to_response('status_1.html', RequestContext(request))
 
-def mystatus(request, order_num, order_id):
+def mystatus(request, order_id):
     order = Order.objects.filter(id=order_id)
-    print order[0].customer
-    print request.user.customer
     #check user
     if order[0].customer.user.username != request.user.username:
         return HttpResponse("권한이 없습니다.")
 
-    print order[0].id
-    type = int(order_num)
+    type = order[0].status
     if type == 1:
         return render_to_response('status_1.html', RequestContext(request))
-    elif type == 2 or type == 3:
-        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order}))
+    elif type == 2:
+        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':Translater.objects.all()}))
+    elif type == 3:
+        translaters = order[0].translaters.all()
+        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters}))
     elif type == 4:
-        return render_to_response('status_3.html', RequestContext(request, {'order': order}))
+        return render_to_response('status_3.html', RequestContext(request, {'order': order[0]}))
     elif type == 5:
-        return render_to_response('status_4.html', RequestContext(request, {'order': order}))
+        return render_to_response('status_4.html', RequestContext(request, {'order': order[0]}))
     else:
-        return render_to_response('status_5.html', RequestContext(request, {'order': order}))
+        return render_to_response('status_5.html', RequestContext(request, {'order': order[0]}))
 
 @csrf_exempt
 def calculate_budget(request):
@@ -110,16 +111,13 @@ def calculate_budget(request):
     return HttpResponse(100)
 
 def register_order(request):
-
     type = request.POST['type']
     originalLang = request.POST['originalLang']
     changeLang = request.POST['changeLang']
     filename =''
     if request.method == 'POST':
-        print "H"
         #Save Files
         if 'file' in request.FILES:
-            print "H1"
             file = request.FILES['file']
             filename = file._name
             user = request.user
@@ -132,4 +130,21 @@ def register_order(request):
     #Save Order
     order = Order.objects.create_order(type, 2, request.user.customer, originalLang, changeLang, 0, filename)
 
-    return redirect("mystatus", order_num='2', order_id=order.id)
+    return redirect("mystatus", order_id=order.id)
+
+
+def update_order(request, status):
+    if request.method == 'POST':
+        if int(status) == 2:
+            size = int(request.POST['size'])
+            order_id = int(request.POST['order_id'])
+
+            order = Order.objects.filter(id=order_id)[0]
+            for num in range(0, size):
+                translater_id = request.POST[str(num)]
+                translater = Translater.objects.filter(id=translater_id)[0]
+                order.translaters.add(translater)
+            order.status = int(order.status) + 1
+            order.save()
+
+    return redirect("mystatus", order_id=order_id)

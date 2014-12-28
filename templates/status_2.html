@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load camerocustomfilters %}
 {% block title %}홈{% endblock %}
 {% block css %}
     .cameroImage
@@ -111,44 +112,69 @@
 
     var client = new XMLHttpRequest();
 
-    function FileBrowse()
-    {
-    var file_upload_btn = document.getElementById("file_upload_btn");
-    var file = document.getElementById("file_upload_input");
-
-    $("#file_upload_input").click();
-    $("#file_upload_input").change(function() {
-    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
-
-    /* Create a FormData instance */
-    var formData = new FormData();
-    /* Add the file */
-    formData.append("file", file.files[0]);
-
-    client.open("POST", "/calculate_budget/", true);
-    client.send(formData);
-
-    });
-    }
-
-
-    client.onreadystatechange = function()
-    {
-    if (client.readyState == 4 && client.status == 200)
-    {
-    var obj = JSON.parse(client.responseText);
-    $("#amountMoney").val(obj.budget);
-    $("#transcount").val(obj.transcount);
-
-    console.log(client.responseText);
-    }
-    }
-
-
     function getStatus()
     {
     console.log("H");
     window.location.href="/a";
+    }
+
+    function Ask()
+    {
+
+    var updateOrderForm = document.forms['UpdateOrderForm'];
+    var index = 0;
+    //for(var i = 0; i < {{ translaters|length }} ; i++)
+    {% for translater in translaters %}
+    {
+        checked_value = $("#check" + {{forloop.counter0}}).is(":checked");
+
+        if(checked_value) {
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = index++;
+            input.value = {{translater.id}};
+            updateOrderForm.appendChild(input);
+            updateOrderForm.size.value = index;
+        }
+
+        console.log(checked_value);
+    }
+    {% endfor %}
+
+    updateOrderForm.submit();
+
+
+    }
+
+    function AddTeacher(order_id, checkbox_id)
+    {
+
+    checked_value = $("#" + checkbox_id).is(":checked");
+    var updateOrderForm = document.forms['UpdateOrderForm'];
+    if(checked_value) {
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = updateOrderForm.size.value;
+        input.value = order_id;
+        input.id = checkbox_id + 'input';
+        updateOrderForm.appendChild(input);
+        updateOrderForm.size.value = String(parseInt(updateOrderForm.size.value) + 1);
+    }
+    else {
+        $("#" + checkbox_id + 'input').remove();
+        var num = 0;
+        $("#UpdateOrderForm").children().each(function() {
+            console.log(this.type);
+            if(this.type == 'text'){
+                this.name = num;
+                num++;
+            }
+
+        });
+        updateOrderForm.size.value = String(parseInt(updateOrderForm.size.value) - 1);
+    }
+
     }
 
 {% endblock %}
@@ -191,14 +217,15 @@
 
         {% if type == 2 %}
             <div class="translaterTitle">
-                <h4 style="float:left;">맞춤 번역가 <span style="color:#4cae4c">24</span>명</h4>
+                <h4 style="float:left;">맞춤 번역가 <span style="color:#4cae4c">{{translaters|length}}</span>명</h4>
                 <button type="button" class="btn btn-success askbtn" onclick="javascript:Ask();">문의하기</button>
             </div>
             <table class="table">
                 <tbody>
+                {% for translater in translaters %}
                 <tr class="body">
                     <td style="width:10px;">
-                        <input type="checkbox">
+                        <input type="checkbox" id="check{{ forloop.counter0 }}"> <!--onclick="javascript:AddTeacher({{ translater.id }}, 'check{{ forloop.counter0 }}');"-->
                     </td>
                     <td style="width:120px;">
                         <img class="defaultImage" src="/static/default.png">
@@ -210,12 +237,13 @@
                         경력  </br>
                     </td>
                     <td style="padding-top: 20px;">
-                        jhun88 </br>
+                        {{ translater.nickname }} </br>
                         KAIST </br>
                         KSA </br>
                         번역 10년차 </br>
                     </td>
                 </tr>
+                {% endfor %}
                 </tbody>
             </table>
         {% elif type == 3 %}
@@ -227,9 +255,11 @@
             </div>
             <table class="table">
                 <tbody>
+                <form action="/update_order/{{order_status}}/" method="POST">
+                {% for translater in translaters %}
                 <tr class="body">
                     <td style="width:10px;">
-                        <input type="checkbox">
+                        <input type="radio" name="translater" value="{{ translater.id }}">
                     </td>
                     <td style="width:200px; padding-top: 20px;">
                         번역가격 </br>
@@ -242,15 +272,23 @@
                     </td>
 
                     <td style="padding-top: 15px;">
-                        jhun88 </br>
+                        {{ translater.nickname }} </br>
                         KAIST </br>
                         KSA </br>
                         번역 10년차 </br>
                     </td>
                 </tr>
+                {% endfor %}
+                </form>
                 </tbody>
             </table>
         {% endif %}
+        </br></br>
 
     </div>
+
+    <form name="UpdateOrderForm" id="UpdateOrderForm" action="/update_order/{{order.status}}/" method="POST"> {% csrf_token %}
+        <input type="hidden" name="size" value="0">
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+    </form>
 {% endblock %}

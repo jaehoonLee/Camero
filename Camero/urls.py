@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^myinfo_page/', myinfo_page),
     url(r'^calculate_budget/', calculate_budget),
     url(r'^makestatus/', makestatus),
-    url(r'^mystatus/(?P<order_num>\d+)/(?P<order_id>\d+)/', mystatus, name='mystatus'),
+    url(r'^mystatus/(?P<order_id>\d+)/', mystatus, name='mystatus'),
 
     # user
     url(r'^customer_register_user/', customer_register_user),
@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^login_user/', login_user),
     url(r'^logout_user/', logout_user),
     url(r'^register_order/', register_order),
+    url(r'^update_order/(?P<status>\d+)/', update_order),
 
     # url(r'^TranslateWeb/', include('TranslateWeb.foo.urls')),
 

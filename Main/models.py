@@ -14,13 +14,14 @@ class Order(models.Model):
     type = models.IntegerField()  #0:Translation
     status = models.IntegerField()
     customer = models.ForeignKey(Customer, null=True)
-    translater = models.ForeignKey(Translater, null=True)
+    translaters = models.ManyToManyField(Translater, null=True)
     originallang = models.IntegerField()
     changedlang = models.IntegerField()
     period = models.IntegerField()
     register_date = models.DateTimeField(auto_now_add=True)
     filename = models.CharField(max_length=255)
     price = models.IntegerField(null=True)
+
 
     objects = OrderManager()
 
