@@ -3,44 +3,65 @@
 {% block css %}
     .defaultimage
     {
-    width : 100px;
-    height : 60px;
-    margin-left : 600px;
+    width : 150px;
+    height : 150px;
+    margin-left : 50px;
     margin-bottom : 50px;
-    }
-
-    .cameroImageStatus{
-    margin : 0 auto;
-    width : 1000px;
-    height : 100px;
-    }
-
-    .myStatus{
-    margin : 0 auto;
-    width : 1000px;
-    height : 100px;
-
-    }
-
-    .statusBox{
-    margin-left : 150px;
-    padding-top:20px;
-    width : 100px;
-    height : 100px;
-    background-color : #66cdaa;
-    text-align : center;
     float : left;
     }
 
-    .statusBoxMiddle{
-    margin-left:50px;
-    padding-top:20px;
-    width : 100px;
-    height : 100px;
-    background-color : #EEEEEE;
-    text-align : center;
+    .mainInfo{
+    width:1000px;
+    margin: 0 auto;
+    }
+
+    .mainInfoDetail{
+    padding-left : 50px;
+    float : left;
+    width : 350px;
+    height : 200px;
+
+    }
+
+    .mainInfoDetail2{
+    width : 400px;
+    height : 200px;
     float : left;
     }
+
+    .statusboxgroup{
+    margin-top : 30px;
+    }
+
+    .statusbox{
+    width : 45px;
+    height : 45px;
+    float : left;
+    text-align : center;
+    margin-right : 30px;
+    }
+
+    .transbtn{
+    margin-top:100px;
+    margin-left:150px;
+    width:200px;
+    height:50px;
+    }
+
+    .orderInfoDiv{
+    width : 900px;
+    margin: 0 auto;
+    }
+
+    tr.body:hover {
+    background-color: #EEEEEE;
+    }
+
+
+
+
+
+
 
     .resultTitle{
     margin: 0 auto;
@@ -99,8 +120,8 @@
 
     .transCompleteBtnDiv{
     width:1000px;
-    height: 200px;
     margin : 0 auto;
+
     }
 
     .transCompleteBtn{
@@ -108,9 +129,22 @@
     width : 1000px;
     height: 50px;
     float : left;
+    margin-bottom : 20px;
     }
 {% endblock %}
 {% block javascript %}
+
+    var client = new XMLHttpRequest();
+
+    function TranslateUpload()
+    {
+
+    $("#file_upload_input").click();
+    $("#file_upload_input").change(function() {
+        document.file_upload.submit();
+    });
+    }
+
 
     client.onreadystatechange = function()
     {
@@ -124,52 +158,52 @@
     }
     }
 
-    function getStatus()
-    {
-    console.log("H");
-    window.location.href="/a";
-    }
 
-    function Complete()
+    function getStatus(order_num, order_id)
     {
-        document.updateForm.submit();
+    if(order_num == 1)
+    window.location.href="/makestatus/";
+    else
+    window.location.href="/translater_mystatus/" +  order_id + "/" ;
     }
 
 {% endblock %}
 {% block content %}
-    <div class="mainInfo" style="background-color: #FFFFEE">
-        <legend></legend>
-        <div class="cameroImageStatus">
-            <img class="defaultimage" src="/static/logo.jpg">
+    <div style="background-color: #FFFFEE">
+        <div class="mainInfo" >
+            <legend></legend>
+            <img class="defaultimage" src="/static/default.png">
+            <div class="mainInfoDetail">
+                <h3> {{user.translater.nickname}}님 반갑습니다! </h3>
+                <div class="statusboxgroup">
+                    <div class="statusbox">
+                        </br>
+                        <p>{{ pre_orders|length }}</p>
+                        <p>구매중</p>
+                    </div>
+                    <div class="statusbox">
+                        </br>
+                        <p>{{ progress_orders|length }}</p>
+                        <p>진행중</p>
+                    </div>
+                    <div class="statusbox">
+                        </br>
+                        <p>{{ complete_orders|length }}</p>
+                        <p>완료</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mainInfoDetail2">
+                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">출금 신청</button>
+            </div>
+            <legend></legend>
         </div>
-        <div class="myStatus">
-            <div class="statusBox" style="background-color:#EEEEEE;">
-                <p>견적</p>
-                <p>확인</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>번역가</p>
-                <p>협상</p>
-            </div>
-            <div class="statusBoxMiddle" style="padding-top:35px;">
-                <p>결제</p>
-            </div>
-            <div class="statusBoxMiddle" style="background-color:#66cdaa;">
-                <p>번역물</p>
-                <p>수령</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>변역</p>
-                <p>완료</p>
-            </div>
-        </div>
-        <legend></legend>
     </div>
-    <div>
-        <div class="jumbotron resultTitle">
+    <div class="orderInfoDiv">
+<div class="jumbotron resultTitle">
             <p style="font-size: 15px;">
-                <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> SOP.hwp<br>
-                <span style="font-weight:bold; padding-left: 20px;">번역 기간 :</span> 12-16-2014 5:23PM<br>
+                <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> {{ order.filename }}<br>
+                <span style="font-weight:bold; padding-left: 20px;">번역 기간 :</span> {{ order.period }}<br>
                 <span style="font-weight:bold; padding-left: 20px;">잔여 시간 :</span><br>
             <div style="text-align:center;">
                 <span style="font-weight:bold; font-size:40px;">4:21:10</span>
@@ -199,13 +233,13 @@
             <button type="button" class="btn btn-success chatBtn" onclick="javascript:Ask();">입력</button>
         </div>
         <div class="transCompleteBtnDiv">
-            <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:Complete();">번역물 수령 완료</button>
+            <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:TranslateUpload();">번역물 업로드</button>
         </div>
     </div>
 
-    <form id="file_upload_form" name="updateForm" action="/update_order/{{ order.status }}/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    <form id="file_upload_form" name="file_upload" action="/update_order/{{ order.status }}/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <input type="file" id="file_upload_input" name="file" style="display:none;">
         <input type="hidden" name="order_id" value="{{ order.id }}">
     </form>
-
 
 {% endblock %}

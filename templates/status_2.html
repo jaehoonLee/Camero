@@ -177,6 +177,11 @@
 
     }
 
+    function Select()
+    {
+        document.TranslaterSelectForm.submit();
+    }
+
 {% endblock %}
 {% block content %}
     <div class="mainInfo" style="background-color: #FFFFEE">
@@ -249,13 +254,14 @@
         {% elif type == 3 %}
             <div class="translaterTitle">
                 <h4 style="float:left;">잔여시간 10:24</h4>
-                <button type="button" class="btn btn-success selectBtn" onclick="javascript:Ask();">번역사 선정</button>
+                <button type="button" class="btn btn-success selectBtn" onclick="javascript:Select();">번역사 선정</button>
                 <button type="button" class="btn btn-success backBtn" onclick="javascript:Ask();">돌아가기</button>
 
             </div>
             <table class="table">
+                <form name="TranslaterSelectForm" action="/update_order/{{order.status}}/" method="POST">{% csrf_token %}
+                <input type="hidden" name="order_id" value="{{ order.id }}">
                 <tbody>
-                <form action="/update_order/{{order_status}}/" method="POST">
                 {% for translater in translaters %}
                 <tr class="body">
                     <td style="width:10px;">
@@ -279,8 +285,8 @@
                     </td>
                 </tr>
                 {% endfor %}
-                </form>
                 </tbody>
+                </form>
             </table>
         {% endif %}
         </br></br>

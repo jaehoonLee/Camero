@@ -130,7 +130,7 @@
     if(order_num == 1)
     window.location.href="/makestatus/";
     else
-    window.location.href="/mystatus/" + order_num + "/" + order_id + "/" ;
+    window.location.href="/translater_mystatus/" +  order_id + "/" ;
     }
 
 {% endblock %}
@@ -144,17 +144,17 @@
                 <div class="statusboxgroup">
                     <div class="statusbox">
                         </br>
-                        <p>1</p>
+                        <p>{{ pre_orders|length }}</p>
                         <p>구매중</p>
                     </div>
                     <div class="statusbox">
                         </br>
-                        <p>1</p>
+                        <p>{{ progress_orders|length }}</p>
                         <p>진행중</p>
                     </div>
                     <div class="statusbox">
                         </br>
-                        <p>1</p>
+                        <p>{{ complete_orders|length }}</p>
                         <p>완료</p>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for order in orders %}
+                {% for order in pre_orders %}
                     <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
                         <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
                         <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
@@ -207,13 +207,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for order in orders %}
+                {% for order in progress_orders %}
                     <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
                         <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
                         <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td></td>
-                        <td>{{order.translater.nickname}}</td>
-                        <td>{{order.price }}</td>
+                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                        <td>{{user.translater.nickname}}</td>
+                        <td>{% if order.price == None %}
+
+                            {% else %}
+                                {{ order.price }}
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -234,13 +239,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for order in orders %}
+                {% for order in complete_orders %}
                     <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
                         <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
                         <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td></td>
-                        <td>{{order.translater.nickname}}</td>
-                        <td>{{order.price }}</td>
+                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                        <td>{{user.translater.nickname}}</td>
+                        <td>{% if order.price == None %}
+
+                            {% else %}
+                                {{ order.price }}
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
 

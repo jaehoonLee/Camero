@@ -20,6 +20,7 @@ class Order(models.Model):
     period = models.IntegerField()
     register_date = models.DateTimeField(auto_now_add=True)
     filename = models.CharField(max_length=255)
+    trans_filename = models.CharField(max_length=255)
     price = models.IntegerField(null=True)
 
 
@@ -30,12 +31,13 @@ class Order(models.Model):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'status', 'get_customer', 'get_translater', 'originallang', 'changedlang', 'period', 'filename', 'register_date')
+    list_display = ('id', 'status', 'get_customer', 'get_translaters', 'originallang', 'changedlang', 'period', 'filename', 'register_date')
     def get_customer(self, obj):
         return obj.customer.nickname
-    def get_translater(self, obj):
-        if obj.translater is not None :
-            return obj.translater.nickname
-        else :
-            return ''
+    def get_translaters(self, obj):
+        text = ''
+        for translater in obj.translaters.all():
+            text = text + translater.nickname + ', '
+        return text
+
 admin.site.register(Order, OrderAdmin)

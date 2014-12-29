@@ -93,6 +93,7 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),
     os.path.join(os.path.dirname(__file__), '..', 'images').replace('\\','/'),
     os.path.join(os.path.dirname(__file__), '..', 'Files').replace('\\','/'),
+    os.path.join(os.path.dirname(__file__), '..', 'CompleteFiles').replace('\\','/'),
 
 )
 

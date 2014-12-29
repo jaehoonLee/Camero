@@ -17,9 +17,20 @@ def main_page(request):
             return render_to_response('main_login.html', RequestContext(request, {'orders': orders}))
         except:
             try:
-                request.user.translater.order_set.all()
                 #번역가라면
-                return render_to_response('main_login_translater.html', RequestContext(request))
+                pre_orders = []
+                progress_orders = []
+                complete_orders = []
+
+                for order in request.user.translater.order_set.all():
+                    if order.status == 3:
+                        pre_orders.append(order)
+                    elif order.status == 4 or order.status == 5:
+                        progress_orders.append(order)
+                    elif order.status == 6:
+                        complete_orders.append(order)
+
+                return render_to_response('main_login_translater.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders' : complete_orders}))
             except:
                 return render_to_response('main_not_login.html', RequestContext(request))
     else :
@@ -55,6 +66,15 @@ def mystatus(request, order_id):
         return render_to_response('status_4.html', RequestContext(request, {'order': order[0]}))
     else:
         return render_to_response('status_5.html', RequestContext(request, {'order': order[0]}))
+
+def translater_mystatus(request, order_id):
+    order = Order.objects.filter(id=order_id)
+    #check user
+    translater = order[0].translaters.all()[0]
+    if translater.user.username != request.user.username:
+        return HttpResponse("권한이 없습니다.")
+
+    return render_to_response('translate_detail.html', RequestContext(request, {'order': order[0]}))
 
 @csrf_exempt
 def calculate_budget(request):
@@ -135,16 +155,43 @@ def register_order(request):
 
 def update_order(request, status):
     if request.method == 'POST':
+        order_id = int(request.POST['order_id'])
+        order = Order.objects.filter(id=order_id)[0]
+
         if int(status) == 2:
             size = int(request.POST['size'])
-            order_id = int(request.POST['order_id'])
-
-            order = Order.objects.filter(id=order_id)[0]
             for num in range(0, size):
                 translater_id = request.POST[str(num)]
                 translater = Translater.objects.filter(id=translater_id)[0]
                 order.translaters.add(translater)
+
+        elif int(status) == 3:
+            sel_translater_id = int(request.POST['translater'])
+            for translater in order.translaters.all():
+                if translater.id == sel_translater_id:
+                    continue
+                else :
+                    order.translaters.remove(translater)
+
+        elif int(status) == 4: #번역자 입장
+            print "HA"
+            print int(status)
+            file = request.FILES['file']
+            filename = file._name
+            user = request.user
+            fp = open(('%s/CompleteFiles/complete_%s_%s' % (UPLOAD_DIR, user.username, filename)), 'wb')
+            for chunk in file.chunks():
+                fp.write(chunk)
+            fp.close()
+
+            order.trans_filename = filename
             order.status = int(order.status) + 1
             order.save()
+            return redirect("main_page", order_id=order_id)
+
+        #elif int(status) == 5: #번역물 수령 완료
+
+        order.status = int(order.status) + 1
+        order.save()
 
     return redirect("mystatus", order_id=order_id)
