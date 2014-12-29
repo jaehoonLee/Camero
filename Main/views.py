@@ -14,7 +14,20 @@ def main_page(request):
         try:
             orders = request.user.customer.order_set.all()
             #고객이라면
-            return render_to_response('main_login.html', RequestContext(request, {'orders': orders}))
+            pre_orders = []
+            progress_orders = []
+            complete_orders = []
+
+            for order in request.user.customer.order_set.all():
+                print order.status
+                if order.status == 3:
+                    pre_orders.append(order)
+                elif order.status == 4 or order.status == 5:
+                    progress_orders.append(order)
+                elif order.status == 6:
+                    complete_orders.append(order)
+
+            return render_to_response('main_login.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
         except:
             try:
                 #번역가라면
