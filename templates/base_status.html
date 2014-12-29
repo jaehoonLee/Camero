@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}홈{% endblock %}
+{% block css %}
+    .mainDiv{
+    float:left;
+    margin-top: 20px;
+    width:100%;
+    }
+
+    .clientStatusDiv{
+    float : left;
+    width : 25%;
+    }
+
+    .mainInfo{
+    width : 250px;
+    height : 230px;
+    margin-top : 10px;
+    margin-left : 25px;
+    background-color: #FFFFFF;
+    text-align : center;
+    }
+
+    .defaultimage
+    {
+    width : 80px;
+    height : 80px;
+    margin-top : 20px;
+    margin-bottom : 10px;
+    border-radius : 40px;
+    }
+
+    .mainInfoDetail2{
+    width : 400px;
+    height : 200px;
+    float : left;
+    }
+
+    .statusboxgroup{
+    margin-left:27.5px;
+    width:195px;
+    background-color:blue;
+    }
+
+    .statusbox{
+    margin-top:10px;
+    width : 65px;
+    height : 40px;
+    float : left;
+    text-align : center;
+    font-size:12px;
+    }
+
+    .transbtn{
+    margin-top : 20px;
+    margin-left : 25px;
+    width:250px;
+    height:50px;
+    }
+
+    .orderInfoDiv{
+    width : 75%;
+    float : left;
+    }
+
+    .orderInfoSubDiv{
+    margin-top : 10px;
+    margin-left : 10px;
+    margin-right : 30px;
+    }
+
+    tr.body:hover {
+    background-color: #EEEEEE;
+    }
+
+    orderData{
+    width:1000px;
+    }
+
+    {% block statuscss %}
+    {% endblock %}
+{% endblock %}
+{% block javascript %}
+    function getStatus(order_num, order_id)
+    {
+    if(order_num == 1)
+    window.location.href="/makestatus/";
+    else
+    window.location.href="/mystatus/" + order_id + "/" ;
+    }
+{% endblock %}
+{% block content %}
+    <div class="mainDiv">
+        <div class="clientStatusDiv">
+            <div class="mainInfo" >
+                <img class="defaultimage" src="/static/default.png">
+                <h4 style="margin-bottom:20px;"> {{user.customer.nickname}}</h4>
+                <legend style="margin-bottom:0px;"></legend>
+                <div class="statusboxgroup">
+                    <div class="statusbox">
+                        {{ pre_orders|length }}
+                        <p>구매중</p>
+                    </div>
+                    <div class="statusbox">
+                        {{ progress_orders|length }}
+                        <p>진행중</p>
+                    </div>
+                    <div class="statusbox">
+                        {{ complete_orders|length }}
+                        <p>완료</p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
+            <!--
+             <div class="mainInfoDetail2">
+
+             </div>
+             -->
+        </div>
+        <div class="orderInfoDiv">
+            {% block statusdiv  %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}
