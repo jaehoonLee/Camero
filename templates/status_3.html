@@ -1,46 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_status.html" %}
 {% block title %}홈{% endblock %}
-{% block css %}
-     .defaultimage
-    {
-    width : 100px;
-    height : 60px;
-    margin-left : 450px;
-    margin-bottom : 50px;
-    }
-
-    .cameroImageStatus{
-    margin : 0 auto;
-    width : 1000px;
-    height : 100px;
-    }
-
-    .myStatus{
-    margin : 0 auto;
-    width : 1000px;
-    height : 100px;
-
-    }
-
-    .statusBox{
-    margin-left : 150px;
-    padding-top:20px;
-    width : 100px;
-    height : 100px;
-    background-color : #66cdaa;
-    text-align : center;
-    float : left;
-    }
-
-    .statusBoxMiddle{
-    margin-left:50px;
-    padding-top:20px;
-    width : 100px;
-    height : 100px;
-    background-color : #EEEEEE;
-    text-align : center;
-    float : left;
-    }
+{% block statuscss %}
 
 {% endblock %}
 {% block javascript %}
@@ -113,39 +73,39 @@
 
     function getStatus()
     {
-        console.log("H");
-        window.location.href="/a";
+    console.log("H");
+    window.location.href="/a";
     }
 
 {% endblock %}
-{% block content %}
-    <div class="mainInfo" style="background-color: #FFFFEE">
-        <legend></legend>
-        <div class="cameroImageStatus">
-            <img class="defaultimage" src="/static/logo.jpg">
+{% block statusdiv %}
+    <div class="mainStatusDiv">
+        <div class="mainStatusDivCenter">
+            <div class="cameroImageStatus">
+                <img class="defaultimage_logo" src="/static/logo.jpg" style="margin-left : 300px;">
+            </div>
+            <div class="myStatus">
+                <div class="statusBox">
+                    <p>견적</p>
+                    <p>확인</p>
+                </div>
+                <div class="statusBoxMiddle">
+                    <p>번역가</p>
+                    <p>협상</p>
+                </div>
+                <div class="statusBoxMiddle" style="padding-top:35px; background-color :#66cdaa">
+                    <p>결제</p>
+                </div>
+                <div class="statusBoxMiddle">
+                    <p>번역물</p>
+                    <p>수령</p>
+                </div>
+                <div class="statusBoxMiddle">
+                    <p>변역</p>
+                    <p>완료</p>
+                </div>
+            </div>
         </div>
-        <div class="myStatus">
-            <div class="statusBox" style="background-color:#EEEEEE;">
-                <p>견적</p>
-                <p>확인</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>번역가</p>
-                <p>협상</p>
-            </div>
-            <div class="statusBoxMiddle" style="padding-top:35px; background-color:#66cdaa;">
-                <p>결제</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>번역물</p>
-                <p>수령</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>변역</p>
-                <p>완료</p>
-            </div>
-        </div>
-        <legend></legend>
     </div>
 
 

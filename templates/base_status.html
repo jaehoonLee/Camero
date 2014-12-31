@@ -58,6 +58,7 @@
     height:50px;
     }
 
+    /* right Div */
     .orderInfoDiv{
     width : 75%;
     float : left;
@@ -75,6 +76,64 @@
 
     orderData{
     width:1000px;
+    }
+
+    /* Status 주석 */
+    .mainStatusDiv
+    {
+    width:880px;
+    height:230px;
+    background-color:#FFFFFF;
+    }
+
+    .mainStatusDivCenter{
+    margin: 0 auto;
+    width:700px;
+    }
+
+    .defaultimage_logo
+    {
+    width : 100px;
+    height : 60px;
+    margin-top : 5%;
+    }
+
+    .cameroImageStatus{
+    margin : 0 auto;
+    width : 100%;
+    height : 50%;
+    }
+
+    .myStatus{
+    width : 100%;
+    height : 50%;
+    }
+
+    .statusBox{
+    padding-top:20px;
+    width : 100px;
+    height : 100px;
+    background-color : #EEEEEE;
+    text-align : center;
+    float : left;
+    }
+
+    .statusBoxMiddle{
+    margin-left:50px;
+    padding-top:20px;
+    width : 100px;
+    height : 100px;
+    background-color : #EEEEEE;
+    text-align : center;
+    float : left;
+    }
+
+    .mainDetailStatusInfo{
+    margin-top:20px;
+    margin-bottom:20px;
+    width:880px;
+    float:left;
+    background-color:#FFFFFF;
     }
 
     {% block statuscss %}
@@ -119,9 +178,14 @@
              -->
         </div>
         <div class="orderInfoDiv">
+            <div class="orderInfoSubDiv" >
             {% block statusdiv  %}
 
             {% endblock %}
+            {% block statusDetaildiv  %}
+
+            {% endblock %}
+            </div>
         </div>
     </div>
 

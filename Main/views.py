@@ -20,7 +20,7 @@ def main_page(request):
 
             for order in request.user.customer.order_set.all():
                 print order.status
-                if order.status == 3:
+                if order.status == 2 or order.status == 3:
                     pre_orders.append(order)
                 elif order.status == 4 or order.status == 5:
                     progress_orders.append(order)
@@ -36,7 +36,7 @@ def main_page(request):
                 complete_orders = []
 
                 for order in request.user.translater.order_set.all():
-                    if order.status == 3:
+                    if order.status == 2 or order.status == 3:
                         pre_orders.append(order)
                     elif order.status == 4 or order.status == 5:
                         progress_orders.append(order)
@@ -57,7 +57,21 @@ def myinfo_page(request):
         return render_to_response('myinfo.html', RequestContext(request))
 
 def makestatus(request):
-    return render_to_response('status_1.html', RequestContext(request))
+    pre_orders = []
+    progress_orders = []
+    complete_orders = []
+
+    #대부분 고객이기 때문에
+    for order in request.user.customer.order_set.all():
+        print order.status
+        if order.status == 2 or order.status == 3:
+            pre_orders.append(order)
+        elif order.status == 4 or order.status == 5:
+            progress_orders.append(order)
+        elif order.status == 6:
+            complete_orders.append(order)
+
+    return render_to_response('status_1.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
 
 def mystatus(request, order_id):
     order = Order.objects.filter(id=order_id)
@@ -65,20 +79,33 @@ def mystatus(request, order_id):
     if order[0].customer.user.username != request.user.username:
         return HttpResponse("권한이 없습니다.")
 
+    pre_orders = []
+    progress_orders = []
+    complete_orders = []
+
+    #대부분 고객이기 때문에
+    for my_order in request.user.customer.order_set.all():
+        if my_order.status == 2 or my_order.status == 3:
+            pre_orders.append(my_order)
+        elif my_order.status == 4 or my_order.status == 5:
+            progress_orders.append(my_order)
+        elif my_order.status == 6:
+            complete_orders.append(my_order)
+
     type = order[0].status
     if type == 1:
         return render_to_response('status_1.html', RequestContext(request))
     elif type == 2:
-        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':Translater.objects.all()}))
+        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':Translater.objects.all(), 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 3:
         translaters = order[0].translaters.all()
-        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters}))
+        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 4:
-        return render_to_response('status_3.html', RequestContext(request, {'order': order[0]}))
+        return render_to_response('status_3.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 5:
-        return render_to_response('status_4.html', RequestContext(request, {'order': order[0]}))
+        return render_to_response('status_4.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     else:
-        return render_to_response('status_5.html', RequestContext(request, {'order': order[0]}))
+        return render_to_response('status_5.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
 
 def translater_mystatus(request, order_id):
     order = Order.objects.filter(id=order_id)
@@ -200,7 +227,7 @@ def update_order(request, status):
             order.trans_filename = filename
             order.status = int(order.status) + 1
             order.save()
-            return redirect("main_page", order_id=order_id)
+            return redirect("main_page")
 
         #elif int(status) == 5: #번역물 수령 완료
 

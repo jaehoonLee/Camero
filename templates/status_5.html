@@ -1,61 +1,18 @@
-{% extends "base.html" %}
+{% extends "base_status.html" %}
 {% block title %}홈{% endblock %}
-{% block css %}
-    .defaultimage
-    {
-    width : 100px;
-    height : 60px;
-    margin-left :750px;
-    margin-bottom : 50px;
-    }
-
-    .cameroImageStatus{
-    margin : 0 auto;
-    width : 1000px;
-    height : 100px;
-    }
-
-    .myStatus{
-    margin : 0 auto;
-    width : 1000px;
-    height : 100px;
-
-    }
-
-    .statusBox{
-    margin-left : 150px;
-    padding-top:20px;
-    width : 100px;
-    height : 100px;
-    background-color : #66cdaa;
-    text-align : center;
-    float : left;
-    }
-
-    .statusBoxMiddle{
-    margin-left:50px;
-    padding-top:20px;
-    width : 100px;
-    height : 100px;
-    background-color : #EEEEEE;
-    text-align : center;
-    float : left;
-    }
-
-    .mainInfo{
-    height : 220px;
-    }
-
+{% block statuscss %}
     .resultTitle{
-    margin : 0 auto;
-    padding-top:20px;
-    height : 150px;
-    width : 1000px;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin: 0 auto;
+    width : 700px;
+    border-radius:5px;
     }
 
     .statusDiv{
+    padding-top:20px;
     margin : 0 auto;
-    width : 1000px;
+    width : 700px;
     }
 
     .reviewDiv{
@@ -63,7 +20,7 @@
     }
 
     .reviewInput{
-    width:880px;
+    width:580px;
     float:left;
     }
 
@@ -74,7 +31,7 @@
     }
 
     .reviewCheck{
-    width : 1000px;
+    width : 700px;
     padding-top:20px;
     float : left;
     }
@@ -85,7 +42,8 @@
 
     .transCompleteBtn{
     margin-top:20px;
-    width : 1000px;
+    margin-bottom:20px;
+    width : 700px;
     float : left;
     }
 {% endblock %}
@@ -164,35 +122,39 @@
     }
 
 {% endblock %}
-{% block content %}
-    <div class="mainInfo" style="background-color: #FFFFEE">
-        <legend></legend>
-        <div class="cameroImageStatus">
-            <img class="defaultimage" src="/static/logo.jpg">
+{% block statusdiv %}
+    <div class="mainStatusDiv">
+        <div class="mainStatusDivCenter">
+            <div class="cameroImageStatus">
+                <img class="defaultimage_logo" src="/static/logo.jpg" style="margin-left : 600px;">
+            </div>
+            <div class="myStatus">
+                <div class="statusBox">
+                    <p>견적</p>
+                    <p>확인</p>
+                </div>
+                <div class="statusBoxMiddle">
+                    <p>번역가</p>
+                    <p>협상</p>
+                </div>
+                <div class="statusBoxMiddle" style="padding-top:35px;">
+                    <p>결제</p>
+                </div>
+                <div class="statusBoxMiddle">
+                    <p>번역물</p>
+                    <p>수령</p>
+                </div>
+                <div class="statusBoxMiddle" style="background-color :#66cdaa">
+                    <p>변역</p>
+                    <p>완료</p>
+                </div>
+            </div>
         </div>
-        <div class="myStatus">
-            <div class="statusBox" style="background-color:#EEEEEE;">
-                <p>견적</p>
-                <p>확인</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>번역가</p>
-                <p>협상</p>
-            </div>
-            <div class="statusBoxMiddle" style="padding-top:35px;">
-                <p>결제</p>
-            </div>
-            <div class="statusBoxMiddle">
-                <p>번역물</p>
-                <p>수령</p>
-            </div>
-            <div class="statusBoxMiddle" style="background-color:#66cdaa;">
-                <p>변역</p>
-                <p>완료</p>
-            </div>
-        </div>
-        <legend></legend>
+    </div>
 
+{% endblock %}
+{% block statusDetaildiv  %}
+    <div class="mainDetailStatusInfo">
         <div class="statusDiv">
             <div class="jumbotron resultTitle">
                 <p style="font-size: 15px;">
@@ -214,10 +176,6 @@
             </div>
             <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:TranslaterSignUpSubmit();">번역 완료</button>
         </div>
-
     </div>
-
-    </div>
-
 
 {% endblock %}
