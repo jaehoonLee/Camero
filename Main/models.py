@@ -9,7 +9,6 @@ class OrderManager(models.Manager):
         order.save()
         return order
 
-
 class Order(models.Model):
     type = models.IntegerField()  #0:Translation
     status = models.IntegerField()
@@ -22,7 +21,6 @@ class Order(models.Model):
     filename = models.CharField(max_length=255)
     trans_filename = models.CharField(max_length=255)
     price = models.IntegerField(null=True)
-
 
     objects = OrderManager()
 
@@ -39,5 +37,58 @@ class OrderAdmin(admin.ModelAdmin):
         for translater in obj.translaters.all():
             text = text + translater.nickname + ', '
         return text
-
 admin.site.register(Order, OrderAdmin)
+
+
+class MessageManager(models.Manager):
+    def create_order(self, type, order, sender, receiver, content):
+        order = self.model(type=type, order=order, sender=sender, receiver=receiver, content=content)
+        order.save()
+        return order
+
+class Message(models.Model):
+    type = models.IntegerField()
+    order = models.ForeignKey(Order)
+    sender = models.CharField(max_length=255)
+    receiver = models.CharField(max_length=255)
+    register_date = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()
+    objects = MessageManager()
+
+    def __str__(self):
+        return self.sender + " to " + self.receiver
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'type', 'get_order', 'sender', 'receiver', 'content')
+    def get_order(self, obj):
+        return obj.order.id
+admin.site.register(Message, MessageAdmin)
+
+
+class TranslaterReviewManager(models.Manager):
+    def create_review(self, reviewer, translater, content):
+        review = self.model(reviewer=reviewer, translater=translater, content=content)
+        review.save()
+        return review
+
+class TranslaterReview(models.Model):
+    reviewer = models.ForeignKey(Customer)
+    translater = models.ForeignKey(Translater)
+    content = models.TextField()
+    objects = TranslaterReviewManager()
+
+    def __str__(self):
+        return self.reviewer.nickname + "to" + self.translater.nickname
+
+class TranslaterReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_reviewer', 'get_translater', 'content')
+    def get_reviewer(self, obj):
+        return obj.reviewer.nickname
+    def get_translater(self, obj):
+        return obj.translater.nickname
+admin.site.register(TranslaterReview, TranslaterReviewAdmin)
+
+
+
+
+

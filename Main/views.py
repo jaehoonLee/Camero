@@ -103,7 +103,8 @@ def mystatus(request, order_id):
     elif type == 4:
         return render_to_response('status_3.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 5:
-        return render_to_response('status_4.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        messages = order[0].message_set.all()
+        return render_to_response('status_4.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders': progress_orders, 'complete_orders': complete_orders, 'message_set': messages}))
     else:
         return render_to_response('status_5.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
 
@@ -114,7 +115,8 @@ def translater_mystatus(request, order_id):
     if translater.user.username != request.user.username:
         return HttpResponse("권한이 없습니다.")
 
-    return render_to_response('translate_detail.html', RequestContext(request, {'order': order[0]}))
+    messages = order[0].message_set.all()
+    return render_to_response('translate_detail.html', RequestContext(request, {'order': order[0], 'message_set': messages }))
 
 @csrf_exempt
 def calculate_budget(request):
@@ -198,6 +200,16 @@ def update_order(request, status):
         order_id = int(request.POST['order_id'])
         order = Order.objects.filter(id=order_id)[0]
 
+        print int(status)
+
+        #check user
+        if int(status) == 2 or int(status) == 3 or int(status) == 3: #고객의 경우
+            if order.customer.user.username != request.user.username:
+                return HttpResponse("권한이 없습니다.")
+        elif int(status) == 4: #번역자의 경우
+            if order.translaters.all()[0].user.username != request.user.username:
+                return HttpResponse("권한이 없습니다.")
+
         if int(status) == 2:
             size = int(request.POST['size'])
             for num in range(0, size):
@@ -214,8 +226,6 @@ def update_order(request, status):
                     order.translaters.remove(translater)
 
         elif int(status) == 4: #번역자 입장
-            print "HA"
-            print int(status)
             file = request.FILES['file']
             filename = file._name
             user = request.user
@@ -235,3 +245,25 @@ def update_order(request, status):
         order.save()
 
     return redirect("mystatus", order_id=order_id)
+
+
+def make_order_message(request):
+    if request.method == 'POST':
+        type = int(request.POST['type']) #sender_type : 0=>고객, 1=>번역자
+        order_id = request.POST['order_id']
+        order = Order.objects.filter(id=order_id)[0]
+        content = request.POST['content']
+        if type == 0:
+            sender = order.customer.nickname
+            receiver = order.translaters.all()[0].nickname
+            Message.objects.create_order(type, order, sender, receiver, content)
+
+            return redirect("mystatus", order_id=order.id)
+        elif type == 1:
+            sender = order.translaters.all()[0].nickname
+            receiver = order.customer.nickname
+            Message.objects.create_order(type, order, sender, receiver, content)
+
+            return redirect("translater_mystatus", order_id=order.id)
+
+

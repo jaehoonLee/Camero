@@ -5,12 +5,15 @@ from UserInfo.views import *
 
 urlpatterns = patterns('',
     #web
-    url(r'^$', main_page),
+    url(r'^$', main_page, name='main_page'),
     url(r'^myinfo_page/', myinfo_page),
+
+    #status
     url(r'^calculate_budget/', calculate_budget),
     url(r'^makestatus/', makestatus),
     url(r'^mystatus/(?P<order_id>\d+)/', mystatus, name='mystatus'),
     url(r'^translater_mystatus/(?P<order_id>\d+)/', translater_mystatus, name='translater_mystatus'),
+    url(r'^make_order_message', make_order_message),
 
     # user
     url(r'^customer_register_user/', customer_register_user),
