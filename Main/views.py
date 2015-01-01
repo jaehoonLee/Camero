@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 import simplejson, os
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
@@ -253,12 +253,15 @@ def make_order_message(request):
         order_id = request.POST['order_id']
         order = Order.objects.filter(id=order_id)[0]
         content = request.POST['content']
+
+        message_len = len(order.message_set.all());
+
         if type == 0:
             sender = order.customer.nickname
             receiver = order.translaters.all()[0].nickname
             Message.objects.create_order(type, order, sender, receiver, content)
 
-            return redirect("mystatus", order_id=order.id)
+            return HttpResponseRedirect("/mystatus/" + order_id +"/#" + str(message_len))
         elif type == 1:
             sender = order.translaters.all()[0].nickname
             receiver = order.customer.nickname
