@@ -3,19 +3,24 @@
 {% block css %}
     .mainDiv{
     float:left;
-    margin-top: 20px;
+    margin-top: 30px;
     width:100%;
+    }
+
+    .mainSubDiv{
+    margin-top:20px;
+    margin : 0 auto;
+    width : 1200px;
     }
 
     .clientStatusDiv{
     float : left;
-    width : 25%;
+    width : 300px;
     }
 
     .mainInfo{
     width : 250px;
     height : 230px;
-    margin-top : 10px;
     margin-left : 25px;
     background-color: #FFFFFF;
     text-align : center;
@@ -60,14 +65,14 @@
 
     /* right Div */
     .orderInfoDiv{
-    width : 75%;
+    width : 900px;
     float : left;
     }
 
     .orderInfoSubDiv{
-    margin-top : 10px;
-    margin-left : 10px;
     margin-right : 30px;
+    width : 860px;
+    float : right;
     }
 
     tr.body:hover {
@@ -81,7 +86,7 @@
     /* Status 주석 */
     .mainStatusDiv
     {
-    width:880px;
+    width:860px;
     height:230px;
     background-color:#FFFFFF;
     }
@@ -131,7 +136,7 @@
     .mainDetailStatusInfo{
     margin-top:20px;
     margin-bottom:20px;
-    width:880px;
+    width:860px;
     float:left;
     background-color:#FFFFFF;
     }
@@ -150,41 +155,47 @@
 {% endblock %}
 {% block content %}
     <div class="mainDiv">
-        <div class="clientStatusDiv">
-            <div class="mainInfo" >
-                <img class="defaultimage" src="/static/default.png">
-                <h4 style="margin-bottom:20px;"> {{user.customer.nickname}}</h4>
-                <legend style="margin-bottom:0px;"></legend>
-                <div class="statusboxgroup">
-                    <div class="statusbox">
-                        {{ pre_orders|length }}
-                        <p>구매중</p>
-                    </div>
-                    <div class="statusbox">
-                        {{ progress_orders|length }}
-                        <p>진행중</p>
-                    </div>
-                    <div class="statusbox">
-                        {{ complete_orders|length }}
-                        <p>완료</p>
+        <div class="mainSubDiv">
+            <div class="clientStatusDiv">
+                <div class="mainInfo" >
+                    <img class="defaultimage" src="/static/default.png">
+                    {% if user.customer.nickname %}
+                        <h4 style="margin-bottom:20px;"> {{user.customer.nickname}}</h4>
+                    {% elif user.translater.nickname  %}
+                        <h4 style="margin-bottom:20px;"> {{user.translater.nickname}}</h4>
+                    {% endif %}
+                    <legend style="margin-bottom:0px;"></legend>
+                    <div class="statusboxgroup">
+                        <div class="statusbox">
+                            {{ pre_orders|length }}
+                            <p>구매중</p>
+                        </div>
+                        <div class="statusbox">
+                            {{ progress_orders|length }}
+                            <p>진행중</p>
+                        </div>
+                        <div class="statusbox">
+                            {{ complete_orders|length }}
+                            <p>완료</p>
+                        </div>
                     </div>
                 </div>
+                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
+                <!--
+                 <div class="mainInfoDetail2">
+
+                 </div>
+                 -->
             </div>
-            <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
-            <!--
-             <div class="mainInfoDetail2">
+            <div class="orderInfoDiv">
+                <div class="orderInfoSubDiv" >
+                    {% block statusdiv  %}
 
-             </div>
-             -->
-        </div>
-        <div class="orderInfoDiv">
-            <div class="orderInfoSubDiv" >
-            {% block statusdiv  %}
+                    {% endblock %}
+                    {% block statusDetaildiv  %}
 
-            {% endblock %}
-            {% block statusDetaildiv  %}
-
-            {% endblock %}
+                    {% endblock %}
+                </div>
             </div>
         </div>
     </div>

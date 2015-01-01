@@ -1,84 +1,112 @@
 {% extends "base_status.html" %}
-{% block title %}홈{% endblock %}
+{% load camerocustomfilters %}
 {% block statuscss %}
+
+    .negotiation{
+    padding-top:20px;
+    width : 700px;
+    margin : 0 auto;
+    }
+
+    .defaultImage{
+    width:100px;
+    height:100px;
+    }
+
+    .defaultImage2{
+    width:50px;
+    height:50px;
+    }
+
+    .translaterTitle{
+
+    height:50px;
+    }
+
+    .askbtn{
+    margin-top:5px;
+    float:right;
+    }
+
+    .backBtn{
+    float:right;
+    margin-right:10px;
+    }
+
+    .selectBtn{
+    float:right;
+    }
 
 {% endblock %}
 {% block javascript %}
-    function Original(lang)
-    {
-    var btn = document.getElementById("originalLang");
-    var btn2 = document.getElementById("changeLang");
-    if(lang == 0) {
-    btn.innerHTML = "영어";
-    btn2.innerHTML = "한국어";
-    }
-    else if(lang == 1) {
-    btn.innerHTML = "한국어";
-    btn2.innerHTML = "영어";
-    }
-
-    return 0;
-    }
-
-    function ChangeLang(lang)
-    {
-    var btn = document.getElementById("changeLang");
-    var btn2 = document.getElementById("originalLang");
-    if(lang == 0) {
-    btn.innerHTML = "영어";
-    btn2.innerHTML = "한국어";
-    }
-    else if(lang == 1) {
-    btn.innerHTML = "한국어";
-    btn2.innerHTML = "영어";
-    }
-    return 0;
-    }
 
     var client = new XMLHttpRequest();
 
-    function FileBrowse()
+    function Ask()
     {
-    var file_upload_btn = document.getElementById("file_upload_btn");
-    var file = document.getElementById("file_upload_input");
 
-    $("#file_upload_input").click();
-    $("#file_upload_input").change(function() {
-    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
+    var updateOrderForm = document.forms['UpdateOrderForm'];
+    var index = 0;
+    //for(var i = 0; i < {{ translaters|length }} ; i++)
+    {% for translater in translaters %}
+        {
+        checked_value = $("#check" + {{forloop.counter0}}).is(":checked");
 
-    /* Create a FormData instance */
-    var formData = new FormData();
-    /* Add the file */
-    formData.append("file", file.files[0]);
+        if(checked_value) {
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = index++;
+        input.value = {{translater.id}};
+        updateOrderForm.appendChild(input);
+        updateOrderForm.size.value = index;
+        }
 
-    client.open("POST", "/calculate_budget/", true);
-    client.send(formData);
+        console.log(checked_value);
+        }
+    {% endfor %}
+
+    updateOrderForm.submit();
+    }
+
+    function AddTeacher(order_id, checkbox_id)
+    {
+
+    checked_value = $("#" + checkbox_id).is(":checked");
+    var updateOrderForm = document.forms['UpdateOrderForm'];
+    if(checked_value) {
+
+    var input = document.createElement("input");
+    input.type = "text";
+    input.name = updateOrderForm.size.value;
+    input.value = order_id;
+    input.id = checkbox_id + 'input';
+    updateOrderForm.appendChild(input);
+    updateOrderForm.size.value = String(parseInt(updateOrderForm.size.value) + 1);
+    }
+    else {
+    $("#" + checkbox_id + 'input').remove();
+    var num = 0;
+    $("#UpdateOrderForm").children().each(function() {
+    console.log(this.type);
+    if(this.type == 'text'){
+    this.name = num;
+    num++;
+    }
 
     });
+    updateOrderForm.size.value = String(parseInt(updateOrderForm.size.value) - 1);
     }
 
-
-    client.onreadystatechange = function()
-    {
-    if (client.readyState == 4 && client.status == 200)
-    {
-    var obj = JSON.parse(client.responseText);
-    $("#amountMoney").val(obj.budget);
-    $("#transcount").val(obj.transcount);
-
-    console.log(client.responseText);
-    }
     }
 
-
-    function getStatus()
+    function Select()
     {
-    console.log("H");
-    window.location.href="/a";
+    document.TranslaterSelectForm.submit();
     }
 
 {% endblock %}
 {% block statusdiv %}
+
     <div class="mainStatusDiv">
         <div class="mainStatusDivCenter">
             <div class="cameroImageStatus">
@@ -91,14 +119,14 @@
                 </div>
                 <div class="statusBoxMiddle">
                     <p>번역가</p>
-                    <p>협상</p>
+                    <p>문의</p>
                 </div>
-                <div class="statusBoxMiddle" style="padding-top:35px; background-color :#66cdaa">
-                    <p>결제</p>
-                </div>
-                <div class="statusBoxMiddle">
+                <div class="statusBoxMiddle" style="background-color :#66cdaa">
                     <p>번역물</p>
-                    <p>수령</p>
+                    <p>선정</p>
+                </div>
+                <div class="statusBoxMiddle" style="padding-top:35px;">
+                    <p>결제</p>
                 </div>
                 <div class="statusBoxMiddle">
                     <p>변역</p>
@@ -108,5 +136,94 @@
         </div>
     </div>
 
+{% endblock %}
+{% block statusDetaildiv  %}
+    <div class="mainDetailStatusInfo">
 
+        <div class="negotiation">
+            <h4>번역가 문의하기란?</h4>
+            <p>
+                대기번역가 중 동시 최대 5명에게 문의할 수 있습니다.
+                30분내에 문의 견적을 받아서 마음에 드는 번역가를 선택하세요!
+            </p>
+            </br>
+
+            {% if type == 2 %}
+                <div class="translaterTitle">
+                    <h4 style="float:left;">맞춤 번역가 <span style="color:#4cae4c">{{translaters|length}}</span>명</h4>
+                    <button type="button" class="btn btn-success askbtn" onclick="javascript:Ask();">문의하기</button>
+                </div>
+                <table class="table">
+                    <tbody>
+                    {% for translater in translaters %}
+                        <tr class="body">
+                            <td style="width:10px;">
+                                <input type="checkbox" id="check{{ forloop.counter0 }}"> <!--onclick="javascript:AddTeacher({{ translater.id }}, 'check{{ forloop.counter0 }}');"-->
+                            </td>
+                            <td style="width:120px;">
+                                <img class="defaultImage" src="/static/default.png">
+                            </td>
+                            <td style="width:100px; padding-top: 20px;">
+                                번역가 </br>
+                                학력  </br>
+                                </br>
+                                경력  </br>
+                            </td>
+                            <td style="padding-top: 20px;">
+                                {{ translater.nickname }} </br>
+                                KAIST </br>
+                                KSA </br>
+                                번역 10년차 </br>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% elif type == 3 %}
+                <div class="translaterTitle">
+                    <h4 style="float:left;">잔여시간 10:24</h4>
+                    <button type="button" class="btn btn-success selectBtn" onclick="javascript:Select();">번역사 선정</button>
+                    <button type="button" class="btn btn-success backBtn" onclick="javascript:Ask();">돌아가기</button>
+
+                </div>
+                <table class="table">
+                    <form name="TranslaterSelectForm" action="/update_order/{{order.status}}/" method="POST">{% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <tbody>
+                        {% for translater in translaters %}
+                            <tr class="body">
+                                <td style="width:10px;">
+                                    <input type="radio" name="translater" value="{{ translater.id }}">
+                                </td>
+                                <td style="width:200px; padding-top: 20px;">
+                                    번역가격 </br>
+                                    <span style="font-size: 20px;">25,000원</span>  </br>
+                                    번역기간</br>
+                                    <span style="font-size: 20px;">12/12/2014</span>  </br>
+                                </td>
+                                <td style="width:60px;">
+                                    <img class="defaultImage2" src="/static/default.png">
+                                </td>
+
+                                <td style="padding-top: 15px;">
+                                    {{ translater.nickname }} </br>
+                                    KAIST </br>
+                                    KSA </br>
+                                    번역 10년차 </br>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </form>
+                </table>
+            {% endif %}
+            </br></br>
+
+        </div>
+    </div>
+
+    <form name="UpdateOrderForm" id="UpdateOrderForm" action="/update_order/{{order.status}}/" method="POST"> {% csrf_token %}
+        <input type="hidden" name="size" value="0">
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+    </form>
 {% endblock %}

@@ -1,120 +1,118 @@
 {% extends "base_status.html" %}
 {% block title %}홈{% endblock %}
 {% block statusdiv %}
-    <div class="orderInfoSubDiv">
-        <h4>새로운 문의건</h4>
-        <div class="panel panel-default">
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th width="20%">주문날짜</th>
-                    <th width="30%">의뢰물</th>
-                    <th width="30%">결과물</th>
-                    <th width="10%">번역사</th>
-                    <th width="10%">가격</th>
+    <h4>새로운 문의건</h4>
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="20%">주문날짜</th>
+                <th width="30%">의뢰물</th>
+                <th width="30%">결과물</th>
+                <th width="10%">번역사</th>
+                <th width="10%">가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in pre_orders %}
+                <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
+                    <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                    <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                    <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                    <td>{% if order.translater == None %}
+                        미정
+                    {% else %}
+                        {{ order.translater.nickname}}
+                    {% endif %}
+                    </td>
+                    <td>{% if order.price == None %}
+                        미정
+
+                    {% else %}
+                        {{ order.price }}
+                    {% endif %}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for order in pre_orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
-                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
-                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
-                        <td>{% if order.translater == None %}
-                            미정
-                        {% else %}
-                            {{ order.translater.nickname}}
-                        {% endif %}
-                        </td>
-                        <td>{% if order.price == None %}
-                            미정
+            {% endfor %}
 
-                        {% else %}
-                            {{ order.price }}
-                        {% endif %}</td>
-                    </tr>
-                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </br>
+    <h4>진행중인 문의건</h4>
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="20%">주문날짜</th>
+                <th width="30%">의뢰물</th>
+                <th width="30%">결과물</th>
+                <th width="10%">번역사</th>
+                <th width="10%">가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in progress_orders %}
+                <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
+                    <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                    <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                    <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                    <td>{% if order.translater == None %}
+                        미정
+                    {% else %}
+                        {{ order.translater.nickname}}
+                    {% endif %}
+                    </td>
+                    <td>{% if order.price == None %}
+                        미정
 
-                </tbody>
-            </table>
-        </div>
-        </br>
-        <h4>진행중인 문의건</h4>
-        <div class="panel panel-default">
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th width="20%">주문날짜</th>
-                    <th width="30%">의뢰물</th>
-                    <th width="30%">결과물</th>
-                    <th width="10%">번역사</th>
-                    <th width="10%">가격</th>
+                    {% else %}
+                        {{ order.price }}
+                    {% endif %}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for order in progress_orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
-                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
-                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
-                        <td>{% if order.translater == None %}
-                            미정
-                        {% else %}
-                            {{ order.translater.nickname}}
-                        {% endif %}
-                        </td>
-                        <td>{% if order.price == None %}
-                            미정
+            {% endfor %}
 
-                        {% else %}
-                            {{ order.price }}
-                        {% endif %}</td>
-                    </tr>
-                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </br>
+    <h4>완료된 문의건</h4>
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="20%">주문날짜</th>
+                <th width="30%">의뢰물</th>
+                <th width="30%">결과물</th>
+                <th width="10%">번역사</th>
+                <th width="10%">가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in complete_orders %}
+                <tr class="body" >
+                    <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                    <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                    <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                    <td>{% if order.translater == None %}
+                        미정
+                    {% else %}
+                        {{ order.translater.nickname}}
+                    {% endif %}
+                    </td>
+                    <td>{% if order.price == None %}
+                        미정
 
-                </tbody>
-            </table>
-        </div>
-        </br>
-        <h4>완료된 문의건</h4>
-        <div class="panel panel-default">
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th width="20%">주문날짜</th>
-                    <th width="30%">의뢰물</th>
-                    <th width="30%">결과물</th>
-                    <th width="10%">번역사</th>
-                    <th width="10%">가격</th>
+                    {% else %}
+                        {{ order.price }}
+                    {% endif %}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for order in complete_orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
-                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
-                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
-                        <td>{% if order.translater == None %}
-                            미정
-                        {% else %}
-                            {{ order.translater.nickname}}
-                        {% endif %}
-                        </td>
-                        <td>{% if order.price == None %}
-                            미정
+            {% endfor %}
 
-                        {% else %}
-                            {{ order.price }}
-                        {% endif %}</td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}

@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+
 import simplejson, os
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
@@ -99,14 +100,14 @@ def mystatus(request, order_id):
         return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':Translater.objects.all(), 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 3:
         translaters = order[0].translaters.all()
-        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        return render_to_response('status_3.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 4:
-        return render_to_response('status_3.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        return render_to_response('status_4.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 5:
         messages = order[0].message_set.all()
-        return render_to_response('status_4.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders': progress_orders, 'complete_orders': complete_orders, 'message_set': messages}))
+        return render_to_response('status_5.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders': progress_orders, 'complete_orders': complete_orders, 'message_set': messages}))
     else:
-        return render_to_response('status_5.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        return redirect("main_page")
 
 def translater_mystatus(request, order_id):
     order = Order.objects.filter(id=order_id)
@@ -267,6 +268,6 @@ def make_order_message(request):
             receiver = order.customer.nickname
             Message.objects.create_order(type, order, sender, receiver, content)
 
-            return redirect("translater_mystatus", order_id=order.id)
+            return HttpResponseRedirect("/translater_mystatus/" + order_id +"/#" + str(message_len))
 
 

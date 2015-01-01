@@ -1,90 +1,62 @@
 {% extends "base_status.html" %}
 {% block title %}홈{% endblock %}
 {% block statuscss %}
-    .receiveStatusDiv{
-    margin: 0 auto;
-    width : 700px;
-    padding-top:20px;
-    }
 
-    .resultTitle{
-    padding-top:10px;
-    padding-bottom:10px;
-    float:left;
-    width : 700px;
-    border-radius:5px;
-    }
-
-    .defaultColumn{
-    float:left;
-    width : 700px;
-    padding-top:20px;
-    }
-
-    .defaultImage2{
-    width:100px;
-    height:100px;
-    border-radius:5px;
-    float:left;
-    background-color:blue;
-    }
-
-    .clientChat{
-    margin-left:20px;
-    width : 580px;
-    min-height:120px;
-    float:left;
-    padding-top:20px;
-    padding-bottom:0px;
-    border-radius:5px;
-    }
-
-    .chat{
-    margin-top:20px;
-    }
-
-    .defaultImage3{
-    width:100px;
-    height:100px;
-    border-radius:5px;
-    float:right;
-    }
-
-    .translaterChat{
-    width : 580px;
-    min-height:120px;
-    float:left;
-    padding-top:20px;
-    padding-bottom:0px;
-    border-radius:5px;
-    }
-
-    .chatInput{
-    width : 580px;
-    float : left;
-    }
-
-    .chatBtn{
-    width : 100px;
-    margin-left:20px;
-    float : left;
-    }
-
-    .transCompleteBtnDiv{
-    width:700px;
-    height: 200px;
-    margin : 0 auto;
-    }
-
-    .transCompleteBtn{
-    margin-top:20px;
-    margin-bottom:20px;
-    width : 700px;
-    height: 50px;
-    float : left;
-    }
 {% endblock %}
 {% block javascript %}
+    function Original(lang)
+    {
+    var btn = document.getElementById("originalLang");
+    var btn2 = document.getElementById("changeLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+
+    return 0;
+    }
+
+    function ChangeLang(lang)
+    {
+    var btn = document.getElementById("changeLang");
+    var btn2 = document.getElementById("originalLang");
+    if(lang == 0) {
+    btn.innerHTML = "영어";
+    btn2.innerHTML = "한국어";
+    }
+    else if(lang == 1) {
+    btn.innerHTML = "한국어";
+    btn2.innerHTML = "영어";
+    }
+    return 0;
+    }
+
+    var client = new XMLHttpRequest();
+
+    function FileBrowse()
+    {
+    var file_upload_btn = document.getElementById("file_upload_btn");
+    var file = document.getElementById("file_upload_input");
+
+    $("#file_upload_input").click();
+    $("#file_upload_input").change(function() {
+    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
+
+    /* Create a FormData instance */
+    var formData = new FormData();
+    /* Add the file */
+    formData.append("file", file.files[0]);
+
+    client.open("POST", "/calculate_budget/", true);
+    client.send(formData);
+
+    });
+    }
+
 
     client.onreadystatechange = function()
     {
@@ -98,20 +70,15 @@
     }
     }
 
-    function Chat()
-    {
-    document.orderChatForm.submit();
-    }
 
-    function Complete()
+    function getStatus()
     {
-    document.updateForm.submit();
+    console.log("H");
+    window.location.href="/a";
     }
 
 {% endblock %}
 {% block statusdiv %}
-
-
     <div class="mainStatusDiv">
         <div class="mainStatusDivCenter">
             <div class="cameroImageStatus">
@@ -124,14 +91,14 @@
                 </div>
                 <div class="statusBoxMiddle">
                     <p>번역가</p>
-                    <p>협상</p>
+                    <p>문의</p>
                 </div>
-                <div class="statusBoxMiddle" style="padding-top:35px;">
-                    <p>결제</p>
-                </div>
-                <div class="statusBoxMiddle" style="background-color :#66cdaa;">
+                <div class="statusBoxMiddle">
                     <p>번역물</p>
-                    <p>수령</p>
+                    <p>선정</p>
+                </div>
+                <div class="statusBoxMiddle" style="padding-top:35px; background-color :#66cdaa">
+                    <p>결제</p>
                 </div>
                 <div class="statusBoxMiddle">
                     <p>변역</p>
@@ -140,62 +107,6 @@
             </div>
         </div>
     </div>
-
-{% endblock %}
-{% block statusDetaildiv  %}
-    <div class="mainDetailStatusInfo">
-        <div class="receiveStatusDiv">
-            <div class="jumbotron resultTitle">
-                <p style="font-size: 15px;">
-                    <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> SOP.hwp<br>
-                    <span style="font-weight:bold; padding-left: 20px;">번역 기간 :</span> 12-16-2014 5:23PM<br>
-                    <span style="font-weight:bold; padding-left: 20px;">잔여 시간 :</span><br>
-                <div style="text-align:center;">
-                    <span style="font-weight:bold; font-size:40px;">4:21:10</span>
-                </div>
-                </p>
-            </div>
-
-            {% for message in message_set %}
-                {% if message.type == 0 %}
-                    <div id='{{forloop.counter0}}' class="defaultColumn">
-                        <img class="defaultImage2" src="/static/default.png">
-                        <div class="jumbotron clientChat">
-                            <span style="padding-left: 20px; padding-right:10px;">의뢰인 :</span>{{message.sender}}<span style="padding-left: 270px;"> {{message.register_date}}</span></br>
-                            <div class="chat">
-                                <span style="padding-left: 20px;">{{ message.content }}</span></br>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div id='{{forloop.counter0 }}' class="defaultColumn">
-                        <div class="jumbotron translaterChat">
-                            <span style="padding-left: 20px; padding-right:10px;">의뢰인 :</span>{{message.sender}}<span style="padding-left: 270px;"> {{message.register_date}}</span></br>
-                            <div class="chat">
-                                <span style="padding-left: 20px;">{{ message.content }}</span></br>
-                            </div>
-                        </div>
-                        <img class="defaultImage3" src="/static/default.png">
-                    </div >
-                {% endif %}
-            {% endfor %}
-            <div class="defaultColumn">
-                <form name="orderChatForm" action="/make_order_message/" method="POST"> {% csrf_token %}
-                    <input name="content" id="content" type="text" class="form-control chatInput">
-                    <input name="order_id" type="hidden" value="{{ order.id }}">
-                    <input name="type" type="hidden" value="0">
-                    <button type="button" class="btn btn-success chatBtn" onclick="javascript:Chat();">입력</button>
-                </form>
-            </div>
-            <div class="transCompleteBtnDiv">
-                <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:Complete();">번역물 수령 완료</button>
-            </div>
-        </div>
-    </div>
-
-    <form id="file_upload_form" name="updateForm" action="/update_order/{{ order.status }}/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-        <input type="hidden" name="order_id" value="{{ order.id }}">
-    </form>
 
 
 {% endblock %}

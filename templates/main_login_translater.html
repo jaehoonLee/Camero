@@ -1,130 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_status.html" %}
 {% block title %}홈{% endblock %}
-{% block css %}
-    .defaultimage
-    {
-    width : 150px;
-    height : 150px;
-    margin-left : 50px;
-    margin-bottom : 50px;
-    float : left;
-    }
-
-    .mainInfo{
-    width:1000px;
-    margin: 0 auto;
-    }
-
-    .mainInfoDetail{
-    padding-left : 50px;
-    float : left;
-    width : 350px;
-    height : 200px;
-
-    }
-
-    .mainInfoDetail2{
-    width : 400px;
-    height : 200px;
-    float : left;
-    }
-
-    .statusboxgroup{
-    margin-top : 30px;
-    }
-
-    .statusbox{
-    width : 45px;
-    height : 45px;
-    float : left;
-    text-align : center;
-    margin-right : 30px;
-    }
-
-    .transbtn{
-    margin-top:100px;
-    margin-left:150px;
-    width:200px;
-    height:50px;
-    }
-
-    .orderInfoDiv{
-    width : 900px;
-    margin: 0 auto;
-    }
-
-    tr.body:hover {
-    background-color: #EEEEEE;
-    }
-{% endblock %}
 {% block javascript %}
-    function Original(lang)
-    {
-    var btn = document.getElementById("originalLang");
-    var btn2 = document.getElementById("changeLang");
-    if(lang == 0) {
-    btn.innerHTML = "영어";
-    btn2.innerHTML = "한국어";
-    }
-    else if(lang == 1) {
-    btn.innerHTML = "한국어";
-    btn2.innerHTML = "영어";
-    }
-
-    return 0;
-    }
-
-    function ChangeLang(lang)
-    {
-    var btn = document.getElementById("changeLang");
-    var btn2 = document.getElementById("originalLang");
-    if(lang == 0) {
-    btn.innerHTML = "영어";
-    btn2.innerHTML = "한국어";
-    }
-    else if(lang == 1) {
-    btn.innerHTML = "한국어";
-    btn2.innerHTML = "영어";
-    }
-    return 0;
-    }
-
-    var client = new XMLHttpRequest();
-
-    function FileBrowse()
-    {
-    var file_upload_btn = document.getElementById("file_upload_btn");
-    var file = document.getElementById("file_upload_input");
-
-    $("#file_upload_input").click();
-    $("#file_upload_input").change(function() {
-    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
-
-    /* Create a FormData instance */
-    var formData = new FormData();
-    /* Add the file */
-    formData.append("file", file.files[0]);
-
-    client.open("POST", "/calculate_budget/", true);
-    client.send(formData);
-
-    });
-    }
-
-
-    client.onreadystatechange = function()
-    {
-    if (client.readyState == 4 && client.status == 200)
-    {
-    var obj = JSON.parse(client.responseText);
-    $("#amountMoney").val(obj.budget);
-    $("#transcount").val(obj.transcount);
-
-    console.log(client.responseText);
-    }
-    }
-
-
     function getStatus(order_num, order_id)
     {
     if(order_num == 1)
@@ -132,132 +8,100 @@
     else
     window.location.href="/translater_mystatus/" +  order_id + "/" ;
     }
-
 {% endblock %}
-{% block content %}
-    <div style="background-color: #FFFFEE">
-        <div class="mainInfo" >
-            <legend></legend>
-            <img class="defaultimage" src="/static/default.png">
-            <div class="mainInfoDetail">
-                <h3> {{user.translater.nickname}}님 반갑습니다! </h3>
-                <div class="statusboxgroup">
-                    <div class="statusbox">
-                        </br>
-                        <p>{{ pre_orders|length }}</p>
-                        <p>구매중</p>
-                    </div>
-                    <div class="statusbox">
-                        </br>
-                        <p>{{ progress_orders|length }}</p>
-                        <p>진행중</p>
-                    </div>
-                    <div class="statusbox">
-                        </br>
-                        <p>{{ complete_orders|length }}</p>
-                        <p>완료</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mainInfoDetail2">
-                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
-            </div>
-            <legend></legend>
-        </div>
+{% block statusdiv %}
+    <h4>새로운 의뢰 문의건</h4>
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="20%">주문날짜</th>
+                <th width="30%">의뢰물</th>
+                <th width="30%">결과물</th>
+                <th width="10%">번역사</th>
+                <th width="10%">가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in pre_orders %}
+                <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
+                    <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                    <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                    <td></td>
+                    <td>{{order.translater.nickname}}</td>
+                    <td>{{order.price }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
     </div>
-    <div class="orderInfoDiv">
-        <h4>새로운 의뢰 문의건</h4>
-        <div class="panel panel-default">
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>주문날짜</th>
-                    <th>의뢰물</th>
-                    <th>결과물</th>
-                    <th>번역사</th>
-                    <th>가격</th>
+    <h4>진행중인 의뢰건</h4>
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="20%">주문날짜</th>
+                <th width="30%">의뢰물</th>
+                <th width="30%">결과물</th>
+                <th width="10%">번역사</th>
+                <th width="10%">가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in progress_orders %}
+                <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
+                    <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                    <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                    <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                    <td>{{user.translater.nickname}}</td>
+                    <td>{% if order.price == None %}
+
+                    {% else %}
+                        {{ order.price }}
+                    {% endif %}
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for order in pre_orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
-                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
-                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td></td>
-                        <td>{{order.translater.nickname}}</td>
-                        <td>{{order.price }}</td>
-                    </tr>
-                {% endfor %}
+            {% endfor %}
 
-                </tbody>
-            </table>
-        </div>
-        <h4>진행중인 의뢰건</h4>
-        <div class="panel panel-default">
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>주문날짜</th>
-                    <th>의뢰물</th>
-                    <th>결과물</th>
-                    <th>번역사</th>
-                    <th>가격</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for order in progress_orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
-                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
-                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
-                        <td>{{user.translater.nickname}}</td>
-                        <td>{% if order.price == None %}
-
-                            {% else %}
-                                {{ order.price }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-        </div>
-        <h4>완료된 의뢰건</h4>
-        <div class="panel panel-default">
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>주문날짜</th>
-                    <th>의뢰물</th>
-                    <th>결과물</th>
-                    <th>번역사</th>
-                    <th>가격</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for order in complete_orders %}
-                    <tr class="body" onclick="javascript:getStatus({{ order.status }}, {{ order.id }})">
-                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
-                        <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
-                        <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
-                        <td>{{user.translater.nickname}}</td>
-                        <td>{% if order.price == None %}
-
-                            {% else %}
-                                {{ order.price }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
+    <h4>완료된 의뢰건</h4>
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="20%">주문날짜</th>
+                <th width="30%">의뢰물</th>
+                <th width="30%">결과물</th>
+                <th width="10%">번역사</th>
+                <th width="10%">가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in complete_orders %}
+                <tr class="body">
+                    <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                    <td><a href="/static/{{user.username}}_{{order.filename}}">{{order.filename}}</a></td>
+                    <td><a href="/static/complete_{{user.username}}_{{order.trans_filename}}">{{order.trans_filename}}</a></td>
+                    <td>{{user.translater.nickname}}</td>
+                    <td>{% if order.price == None %}
+
+                    {% else %}
+                        {{ order.price }}
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
 
 
 {% endblock %}

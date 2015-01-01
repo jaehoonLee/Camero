@@ -1,87 +1,48 @@
-{% extends "base.html" %}
-{% block title %}홈{% endblock %}
-{% block css %}
-    .defaultimage
-    {
-    width : 150px;
-    height : 150px;
-    margin-left : 50px;
-    margin-bottom : 50px;
-    float : left;
+{% extends "base_status.html" %}
+{% block statuscss %}
+    .mainDetailStatusInfo2{
+    margin-bottom:20px;
+    width:860px;
+    float:left;
+    background-color:#FFFFFF;
     }
 
-    .mainInfo{
-    width:1000px;
+    .receiveStatusDiv{
     margin: 0 auto;
-    }
-
-    .mainInfoDetail{
-    padding-left : 50px;
-    float : left;
-    width : 350px;
-    height : 200px;
-
-    }
-
-    .mainInfoDetail2{
-    width : 400px;
-    height : 200px;
-    float : left;
-    }
-
-    .statusboxgroup{
-    margin-top : 30px;
-    }
-
-    .statusbox{
-    width : 45px;
-    height : 45px;
-    float : left;
-    text-align : center;
-    margin-right : 30px;
-    }
-
-    .transbtn{
-    margin-top:100px;
-    margin-left:150px;
-    width:200px;
-    height:50px;
-    }
-
-    .orderInfoDiv{
-    width : 900px;
-    margin: 0 auto;
-    }
-
-    tr.body:hover {
-    background-color: #EEEEEE;
+    width : 700px;
+    padding-top:20px;
     }
 
     .resultTitle{
-    margin: 0 auto;
-    padding-top:20px;
-    height : 190px;
-    width : 1000px;
+    padding-top:10px;
+    padding-bottom:10px;
+    float:left;
+    width : 700px;
+    border-radius:5px;
     }
 
     .defaultColumn{
-    margin : 0 auto;
-    width : 1000px;
+    float:left;
+    width : 700px;
     padding-top:20px;
     }
 
     .defaultImage2{
     width:100px;
     height:100px;
+    border-radius:5px;
     float:left;
+    background-color:blue;
     }
 
     .clientChat{
     margin-left:20px;
-    width : 880px;
+    width : 580px;
     min-height:120px;
     float:left;
     padding-top:20px;
+    padding-bottom:0px;
+    border-radius:5px;
     }
 
     .chat{
@@ -91,18 +52,21 @@
     .defaultImage3{
     width:100px;
     height:100px;
+    border-radius:5px;
     float:right;
     }
 
     .translaterChat{
-    width : 880px;
+    width : 580px;
     min-height:120px;
     float:left;
     padding-top:20px;
+    padding-bottom:0px;
+    border-radius:5px;
     }
 
     .chatInput{
-    width : 880px;
+    width : 580px;
     float : left;
     }
 
@@ -113,17 +77,17 @@
     }
 
     .transCompleteBtnDiv{
-    width:1000px;
+    width:700px;
+    height: 200px;
     margin : 0 auto;
-
     }
 
     .transCompleteBtn{
     margin-top:20px;
-    width : 1000px;
+    margin-bottom:20px;
+    width : 700px;
     height: 50px;
     float : left;
-    margin-bottom : 20px;
     }
 {% endblock %}
 {% block javascript %}
@@ -154,82 +118,54 @@
     }
 
 {% endblock %}
-{% block content %}
-    <div style="background-color: #FFFFEE">
-        <div class="mainInfo" >
-            <legend></legend>
-            <img class="defaultimage" src="/static/default.png">
-            <div class="mainInfoDetail">
-                <h3> {{user.translater.nickname}}님 반갑습니다! </h3>
-                <div class="statusboxgroup">
-                    <div class="statusbox">
-                        </br>
-                        <p>{{ pre_orders|length }}</p>
-                        <p>구매중</p>
-                    </div>
-                    <div class="statusbox">
-                        </br>
-                        <p>{{ progress_orders|length }}</p>
-                        <p>진행중</p>
-                    </div>
-                    <div class="statusbox">
-                        </br>
-                        <p>{{ complete_orders|length }}</p>
-                        <p>완료</p>
-                    </div>
+{% block statusdiv %}
+    <div class="mainDetailStatusInfo2">
+        <div class="receiveStatusDiv">
+            <div class="jumbotron resultTitle">
+                <p style="font-size: 15px;">
+                    <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> {{ order.filename }}<br>
+                    <span style="font-weight:bold; padding-left: 20px;">번역 기간 :</span> {{ order.period }}<br>
+                    <span style="font-weight:bold; padding-left: 20px;">잔여 시간 :</span><br>
+                <div style="text-align:center;">
+                    <span style="font-weight:bold; font-size:40px;">4:21:10</span>
                 </div>
+                </p>
             </div>
-            <div class="mainInfoDetail2">
-                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">출금 신청</button>
-            </div>
-            <legend></legend>
-        </div>
-    </div>
-    <div class="orderInfoDiv">
-        <div class="jumbotron resultTitle">
-            <p style="font-size: 15px;">
-                <span style="font-weight:bold; padding-left: 20px;">의뢰 문서 :</span> {{ order.filename }}<br>
-                <span style="font-weight:bold; padding-left: 20px;">번역 기간 :</span> {{ order.period }}<br>
-                <span style="font-weight:bold; padding-left: 20px;">잔여 시간 :</span><br>
-            <div style="text-align:center;">
-                <span style="font-weight:bold; font-size:40px;">4:21:10</span>
-            </div>
-            </p>
-        </div>
 
-        {% for message in message_set %}
-            {% if message.type == 0 %}
-                <div class="defaultColumn">
-                    <div class="jumbotron translaterChat">
-                        <span style="padding-left: 20px; padding-right:10px;">의뢰인 :</span>{{message.sender}}<span style="padding-left: 270px;"> {{message.register_date}}</span></br>
-                        <div class="chat">
-                            <span style="padding-left: 20px;">{{ message.content }}</span></br>
+            {% for message in message_set %}
+                {% if message.type == 0 %}
+                    <div id='{{forloop.counter0}}' class="defaultColumn">
+                        <div class="jumbotron translaterChat">
+                            <span style="padding-left: 20px; padding-right:10px;">의뢰인 :</span>{{message.sender}}<span style="padding-left: 270px;"> {{message.register_date}}</span></br>
+                            <div class="chat">
+                                <span style="padding-left: 20px;">{{ message.content }}</span></br>
+                            </div>
+                        </div>
+                        <img class="defaultImage3" src="/static/default.png">
+                    </div >
+                {% else %}
+                    <div id='{{forloop.counter0}}' class="defaultColumn">
+                        <img class="defaultImage2" src="/static/default.png">
+                        <div class="jumbotron clientChat">
+                            <span style="padding-left: 20px; padding-right:10px;">번역자 :</span>{{message.sender}}<span style="padding-left: 270px;"> {{message.register_date}}</span></br>
+                            <div class="chat">
+                                <span style="padding-left: 20px;">{{ message.content }}</span></br>
+                            </div>
                         </div>
                     </div>
-                    <img class="defaultImage3" src="/static/default.png">
-                </div >
-            {% else %}
-                <div class="defaultColumn">
-                    <img class="defaultImage2" src="/static/default.png">
-                    <div class="jumbotron clientChat">
-                        <span style="padding-left: 20px; padding-right:10px;">의뢰인 :</span>{{message.sender}}<span style="padding-left: 270px;"> {{message.register_date}}</span></br>
-                        <div class="chat">
-                            <span style="padding-left: 20px;">{{ message.content }}</span></br>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-        <div class="defaultColumn">
-            <form name="orderChatForm" action="/make_order_message/" method="POST"> {% csrf_token %}
+                {% endif %}
+            {% endfor %}
+            <div class="defaultColumn">
+                <form name="orderChatForm" action="/make_order_message/" method="POST"> {% csrf_token %}
                     <input name="content" id="content" type="text" class="form-control chatInput">
                     <input name="order_id" type="hidden" value="{{ order.id }}">
                     <input name="type" type="hidden" value="1">
                     <button type="button" class="btn btn-success chatBtn" onclick="javascript:Chat();">입력</button>
-            </form>
-        </div>
-        <div class="transCompleteBtnDiv">
-            <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:TranslateUpload();">번역물 업로드</button>
+                </form>
+            </div>
+            <div class="transCompleteBtnDiv">
+                <button type="button" class="btn btn-success transCompleteBtn" onclick="javascript:TranslateUpload();">번역물 업로드</button>
+            </div>
         </div>
     </div>
 
