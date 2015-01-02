@@ -1,75 +1,30 @@
 {% extends "base_status.html" %}
 {% block title %}홈{% endblock %}
 {% block statuscss %}
+    .budgetPage
+    {
+    margin : 0 auto;
+    width : 700px;
+    padding-top :20px;
+    }
 
+    .budgetInfoPage{
+    margin-top : 30px;
+    padding-top : 20px;
+    padding-bottom : 20px;
+    padding-left : 170px;
+    width : 700px;
+    border : 1px solid #111111;
+    border-radius : 5px;
+    }
+
+    .budgetSubmitBtn{
+    margin-left : 200px;
+    width : 300px;
+    height : 50px;
+    }
 {% endblock %}
 {% block javascript %}
-    function Original(lang)
-    {
-    var btn = document.getElementById("originalLang");
-    var btn2 = document.getElementById("changeLang");
-    if(lang == 0) {
-    btn.innerHTML = "영어";
-    btn2.innerHTML = "한국어";
-    }
-    else if(lang == 1) {
-    btn.innerHTML = "한국어";
-    btn2.innerHTML = "영어";
-    }
-
-    return 0;
-    }
-
-    function ChangeLang(lang)
-    {
-    var btn = document.getElementById("changeLang");
-    var btn2 = document.getElementById("originalLang");
-    if(lang == 0) {
-    btn.innerHTML = "영어";
-    btn2.innerHTML = "한국어";
-    }
-    else if(lang == 1) {
-    btn.innerHTML = "한국어";
-    btn2.innerHTML = "영어";
-    }
-    return 0;
-    }
-
-    var client = new XMLHttpRequest();
-
-    function FileBrowse()
-    {
-    var file_upload_btn = document.getElementById("file_upload_btn");
-    var file = document.getElementById("file_upload_input");
-
-    $("#file_upload_input").click();
-    $("#file_upload_input").change(function() {
-    file_upload_btn.innerHTML = $("#file_upload_input").val().split('\\').pop();
-
-    /* Create a FormData instance */
-    var formData = new FormData();
-    /* Add the file */
-    formData.append("file", file.files[0]);
-
-    client.open("POST", "/calculate_budget/", true);
-    client.send(formData);
-
-    });
-    }
-
-
-    client.onreadystatechange = function()
-    {
-    if (client.readyState == 4 && client.status == 200)
-    {
-    var obj = JSON.parse(client.responseText);
-    $("#amountMoney").val(obj.budget);
-    $("#transcount").val(obj.transcount);
-
-    console.log(client.responseText);
-    }
-    }
-
 
     function getStatus()
     {
@@ -107,6 +62,32 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block statusDetaildiv  %}
+    <div class="mainDetailStatusInfo">
+        <div class="budgetPage">
+            <h3>무통장 입금 안내</h3>
+            <div class="budgetInfoPage">
+                결제 금액:    	<span style="padding-left:100px;"><span style="font-weight:bold; color:green;">111,111 </span>원 (10% VAT 포함)</span> </br>
+                입금자 명:    	<span style="padding-left:100px; font-weight:bold; color:green;">Client123</span> </br>
+
+                입금 계좌:    <span style="padding-left:100px;">기업은행 1231123123123</span> </br>
+                예금 주:		<span style="padding-left:114px;">(주) 카메로</span> </br>
+            </div>
+            <h4 style="margin-top:20px;">입금 완료하셨나요?</h4>
+            <button type="button" class="btn btn-success budgetSubmitBtn" onclick="javascript:getStatus(1, 0);">빠른 입금확인 요청!</button>
+            <p style="margin-top:20px; margin-bottom:50px;">
+                - 입금확인 완료 시 번역가와 연결됩니다. </br>
+                - 입금확인 요청 후 1시간 내 승인이 나지 않으면 03-123-1231로 연락주시기 바랍니다. </br>
+                - 번역료는 번역물 수령 완료 후 번역가에게 전달됩니다.
+            </p>
+        </div>
+    </div>
+
+    <form name="UpdateOrderForm" id="UpdateOrderForm" action="/update_order/{{order.status}}/" method="POST"> {% csrf_token %}
+        <input type="hidden" name="size" value="0">
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+    </form>
 
 {% endblock %}

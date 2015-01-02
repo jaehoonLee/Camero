@@ -9,6 +9,8 @@ from Camero.settings import UPLOAD_DIR
 from docx import Document
 from hwp5.hwp5txt import make
 from Main.models import *
+from django.core.mail import send_mail
+
 
 def main_page(request):
     if request.user.is_authenticated():
