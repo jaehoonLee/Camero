@@ -87,8 +87,3 @@ class TranslaterReviewAdmin(admin.ModelAdmin):
     def get_translater(self, obj):
         return obj.translater.nickname
 admin.site.register(TranslaterReview, TranslaterReviewAdmin)
-
-
-
-
-

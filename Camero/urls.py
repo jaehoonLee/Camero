@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     #web
     url(r'^$', main_page, name='main_page'),
     url(r'^myinfo_page/', myinfo_page),
+    url(r'^budget_admin_page/', budget_admin_page),
 
     #status
     url(r'^calculate_budget/', calculate_budget),

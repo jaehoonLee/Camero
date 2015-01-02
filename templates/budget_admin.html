@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block css %}
+    .adminMainDiv{
+    margin : 0 auto;
+    width : 1000px;
+    }
+
+    .adminMaindSubDiv{
+    background-color:#FFFFFF;
+
+    margin-top : 30px;
+    }
+
+    .checkBtn{
+    padding-top:0px;
+    width:100px;
+    height : 20px;
+    }
+{% endblock %}
+{% block javascript %}
+    function updateStatus(order_id_val, order_status)
+    {
+        var updateOrderForm = document.forms['UpdateOrderForm'];
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "order_id";
+        input.value = order_id_val;
+        updateOrderForm.appendChild(input);
+
+        updateOrderForm.action = "/update_order/" + order_status + "/";
+
+        UpdateOrderForm.submit();
+    }
+{% endblock %}
+{% block content %}
+    <div class="adminMainDiv">
+    <h3>승인 페이지</h3>
+        <div class="adminMaindSubDiv">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="20%">주문날짜</th>
+                    <th width="10%">고객</th>
+                    <th width="10%">번역사</th>
+                    <th width="10%">가격</th>
+                    <th width="10%">승인</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr class="body" >
+                        <td>{{order.register_date |date:'Y-m-d H:i:s'}}</td>
+                        <td>{{order.customer.nickname}}</td>
+                        <td>{% if order.translaters == None %}
+                            미정
+                        {% else %}
+                            {% for translater in order.translaters.all %}
+                                {{ translater}}
+                            {% endfor %}
+                        {% endif %}
+                        </td>
+                        <td>{% if order.price == None %}
+                            미정
+
+                        {% else %}
+                            {{ order.price }}
+                        {% endif %}</td>
+                        <td><button type="button" class="btn btn-success checkBtn" onclick="javascript:updateStatus('{{ order.id }}', {{order.status}});">승인</button></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <form name="UpdateOrderForm" id="UpdateOrderForm" method="POST"> {% csrf_token %}
+    </form>
+{% endblock %}

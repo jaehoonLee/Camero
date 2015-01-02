@@ -51,6 +51,10 @@ def main_page(request):
     else :
         return render_to_response('main_not_login.html', RequestContext(request))
 
+def budget_admin_page(request):
+    orders = Order.objects.filter(status=5)
+
+    return render_to_response('budget_admin.html', RequestContext(request, {'orders' : orders}))
 
 def myinfo_page(request):
     if request.user.is_anonymous():
