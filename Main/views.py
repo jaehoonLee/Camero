@@ -11,7 +11,6 @@ from hwp5.hwp5txt import make
 from Main.models import *
 from django.core.mail import send_mail
 
-
 def main_page(request):
     if request.user.is_authenticated():
         try:
@@ -25,9 +24,9 @@ def main_page(request):
                 print order.status
                 if order.status == 2 or order.status == 3:
                     pre_orders.append(order)
-                elif order.status == 4 or order.status == 5:
+                elif order.status == 4 or order.status == 5 or order.status == 6:
                     progress_orders.append(order)
-                elif order.status == 6:
+                else:
                     complete_orders.append(order)
 
             return render_to_response('main_login.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
@@ -41,9 +40,9 @@ def main_page(request):
                 for order in request.user.translater.order_set.all():
                     if order.status == 2 or order.status == 3:
                         pre_orders.append(order)
-                    elif order.status == 4 or order.status == 5:
+                    elif order.status == 4 or order.status == 5 or order.status == 6:
                         progress_orders.append(order)
-                    elif order.status == 6:
+                    else:
                         complete_orders.append(order)
 
                 return render_to_response('main_login_translater.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders' : complete_orders}))
@@ -69,9 +68,9 @@ def makestatus(request):
         print order.status
         if order.status == 2 or order.status == 3:
             pre_orders.append(order)
-        elif order.status == 4 or order.status == 5:
+        elif order.status == 4 or order.status == 5 or order.status == 6:
             progress_orders.append(order)
-        elif order.status == 6:
+        else:
             complete_orders.append(order)
 
     return render_to_response('status_1.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
@@ -96,16 +95,18 @@ def mystatus(request, order_id):
             complete_orders.append(my_order)
 
     type = order[0].status
-    if type == 1:
+    if type == 1:#견적확인
         return render_to_response('status_1.html', RequestContext(request))
-    elif type == 2:
+    elif type == 2:#번역가문의
         return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':Translater.objects.all(), 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
-    elif type == 3:
+    elif type == 3:#번역가선정
         translaters = order[0].translaters.all()
         return render_to_response('status_3.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
-    elif type == 4:
-        return render_to_response('status_4.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
-    elif type == 5:
+    elif type == 4:#결제
+        return render_to_response('status_4.html', RequestContext(request, {'status' : 4, 'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+    elif type == 5:#결제 확인
+        return render_to_response('status_4.html', RequestContext(request, {'status' : 5, 'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+    elif type == 6:#번역물 수령
         messages = order[0].message_set.all()
         return render_to_response('status_5.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders': progress_orders, 'complete_orders': complete_orders, 'message_set': messages}))
     else:
@@ -113,6 +114,7 @@ def mystatus(request, order_id):
 
 def translater_mystatus(request, order_id):
     order = Order.objects.filter(id=order_id)
+
     #check user
     translater = order[0].translaters.all()[0]
     if translater.user.username != request.user.username:
@@ -206,21 +208,17 @@ def update_order(request, status):
         print int(status)
 
         #check user
-        if int(status) == 2 or int(status) == 3 or int(status) == 3: #고객의 경우
-            if order.customer.user.username != request.user.username:
-                return HttpResponse("권한이 없습니다.")
-        elif int(status) == 4: #번역자의 경우
-            if order.translaters.all()[0].user.username != request.user.username:
-                return HttpResponse("권한이 없습니다.")
+        if order.customer.user.username != request.user.username:
+            return HttpResponse("권한이 없습니다.")
 
-        if int(status) == 2:
+        if int(status) == 2:#번역자 문의
             size = int(request.POST['size'])
             for num in range(0, size):
                 translater_id = request.POST[str(num)]
                 translater = Translater.objects.filter(id=translater_id)[0]
                 order.translaters.add(translater)
 
-        elif int(status) == 3:
+        elif int(status) == 3:#번역자 선정
             sel_translater_id = int(request.POST['translater'])
             for translater in order.translaters.all():
                 if translater.id == sel_translater_id:
@@ -228,7 +226,10 @@ def update_order(request, status):
                 else :
                     order.translaters.remove(translater)
 
-        elif int(status) == 4: #번역자 입장
+        elif int(status) == 4: #결제확인 요청
+            print "Check"
+            #메일 알림 보내기
+            '''
             file = request.FILES['file']
             filename = file._name
             user = request.user
@@ -241,8 +242,13 @@ def update_order(request, status):
             order.status = int(order.status) + 1
             order.save()
             return redirect("main_page")
+            '''
 
-        #elif int(status) == 5: #번역물 수령 완료
+        elif int(status) == 5: # 결제 확인
+            print "Check3"
+        elif int(status) == 6: # 수령 확인
+            print "Check4"
+
 
         order.status = int(order.status) + 1
         order.save()

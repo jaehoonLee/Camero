@@ -75,6 +75,7 @@
                 입금 계좌:    <span style="padding-left:100px;">기업은행 1231123123123</span> </br>
                 예금 주:		<span style="padding-left:114px;">(주) 카메로</span> </br>
             </div>
+            {% if status == 4 %}
             <h4 style="margin-top:20px;">입금 완료하셨나요?</h4>
             <button type="button" class="btn btn-success budgetSubmitBtn" onclick="javascript:getStatus(1, 0);">빠른 입금확인 요청!</button>
             <p style="margin-top:20px; margin-bottom:50px;">
@@ -82,6 +83,9 @@
                 - 입금확인 요청 후 1시간 내 승인이 나지 않으면 03-123-1231로 연락주시기 바랍니다. </br>
                 - 번역료는 번역물 수령 완료 후 번역가에게 전달됩니다.
             </p>
+            {% elif status == 5 %}
+            <h4 style="margin-top:20px;"> 30분 내로 입금이 확인 됩니다.</h4></br>
+            {% endif %}
         </div>
     </div>
 
