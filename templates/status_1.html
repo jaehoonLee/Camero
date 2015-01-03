@@ -113,6 +113,10 @@
     document.TranslationOrderRegisterForm.submit();
     }
 
+    $(function() {
+    $("#transcal").datetimepicker();
+    });
+
 {% endblock %}
 {% block statusdiv %}
     <div class="mainStatusDiv">
@@ -180,7 +184,7 @@
                 </div>
                 <div class="transcaldiv">
                     <h4>번역기간</h4>
-                    <input type="text" class="form-control transcaltext">
+                    <input type="text" class="form-control transcaltext" id="transcal">
                 </div>
                 <br>
                 <div class="transcaldiv">
