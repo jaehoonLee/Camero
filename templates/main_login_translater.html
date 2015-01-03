@@ -128,6 +128,39 @@
     else
     window.location.href="/translater_mystatus/" +  order_id + "/" ;
     }
+
+    var client = new XMLHttpRequest();
+
+    function checkNickname()
+    {
+        /* Create a FormData instance */
+        var formData = new FormData();
+        val = $(".nicknameInput").val();
+        formData.append("nickname", val);
+
+        client.open("POST", "/check_translater_nickname/", true);
+        client.send(formData);
+    }
+
+    client.onreadystatechange = function()
+    {
+    if (client.readyState == 4 && client.status == 200)
+    {
+        var value = client.responseText;
+        console.log(value);
+        console.log(value == 0);
+        $("#nicknameErrorDiv").css({"height" : '30px', 'display' : ''});
+        if(value == 0){
+
+            $("#nicknameErrorText").css({"color" : 'red' , 'display' : ''});
+            $("#nicknameErrorText").text("이미 존재하는 닉네임입니다.")
+        }
+        else {
+            $("#nicknameErrorText").css({"color" : 'green' , 'display' : ''});
+            $("#nicknameErrorText").text("사용 가능하신 닉네임입니다.")
+        }
+    }
+    }
 {% endblock %}
 {% block statusdiv %}
     {% if active == True %}
@@ -234,6 +267,7 @@
                 <div class="translaterInfoSubDiv">
                     <div class="infoInputTitle">성명 </div>
                     <div class="infoInputTitle">닉네임 </div>
+                    <div id="nicknameErrorDiv" style="display: none;"> </div>
                     <div class="infoInputTitle">연락처 </div>
                     <div class="infoInputTitle">가능 서비스 </div>
                     <div class="infoInputTitle">가능 언어 </div>
@@ -247,10 +281,10 @@
                         <input type="text" class="form-control infoInput">
                     </div>
                     <div class="infoInputDiv">
-                        <input type="text" class="form-control infoInput">
-                        <button type="button" class="btn btn-success checkBtn" onclick="javascript:updateStatus('{{ order.id }}', {{order.status}});">중복 확인</button>
-
+                        <input type="text" class="form-control infoInput nicknameInput">
+                        <button type="button" class="btn btn-success checkBtn" onclick="javascript:checkNickname();">중복 확인</button>
                     </div>
+                    <p id="nicknameErrorText" style="display: none;">이미 존재하는 닉네임입니다.</p>
                     <div class="infoInputDiv">
                         <input type="text" class="form-control infoInput2">
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;">

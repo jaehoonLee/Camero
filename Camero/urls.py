@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^myinfo_page/', myinfo_page),
     url(r'^budget_admin_page/', budget_admin_page, name="admin_page"),
     url(r'^update_translater/', update_translater),
+    url(r'^check_translater_nickname/', check_translater_nickname),
 
     #status
     url(r'^calculate_budget/', calculate_budget),

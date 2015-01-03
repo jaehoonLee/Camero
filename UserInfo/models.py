@@ -11,7 +11,7 @@ class TranslaterManager(models.Manager):
         return translator
 
 class Translater(models.Model):
-    nickname = models.CharField(max_length = 30)
+    nickname = models.CharField(max_length=30)
     active = models.BooleanField()
     user = models.OneToOneField(User)
     workhours = models.IntegerField()

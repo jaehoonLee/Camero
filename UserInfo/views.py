@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect
 from django.shortcuts import *
 from django.contrib.auth.models import User
@@ -53,6 +54,16 @@ def update_translater(request):
         translater.active = True
         translater.save()
     return redirect("admin_page")
+
+@csrf_exempt
+def check_translater_nickname(request):
+    nickname = request.POST['nickname']
+    print nickname
+    translaters = Translater.objects.filter(nickname=nickname)
+    if len(translaters) == 0: # 아무도 없음
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
 
 
 @csrf_exempt
