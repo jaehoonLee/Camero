@@ -4,7 +4,7 @@
     .welcomeDiv
     {
     width:860px;
-    height:950px;
+    height:1180px;
     background-color:#FFFFFF;
     margin-bottom:50px;
     }
@@ -19,7 +19,7 @@
     }
 
     .translaterInfoDiv{
-    margin-top:50px;
+    margin-top:20px;
     margin-left : 20px;
     width : 820px;
     height : 500px;
@@ -28,13 +28,13 @@
     .translaterInfoSubDiv{
     margin-left : 50px;
     width : 150px;
-    height : 400px;
+    height : 670px;
     float : left;
     }
 
     .translaterInfoSubDiv2{
     width : 600px;
-    height : 400px;
+    height : 670px;
     float : left;
     }
 
@@ -53,8 +53,35 @@
     height : 40px;
     }
 
+    .infoInputTitle2{
+    padding-top:7px;
+    height : 160px;
+    }
+
+    .infoInputTitle3{
+    padding-top:7px;
+    height : 100px;
+    }
+
+    .infoInputTitle4{
+    padding-top:7px;
+    height : 130px;
+    }
+
     .infoInputDiv{
     height : 40px;
+    }
+
+    .infoInputDiv2{
+    height : 155px;
+    }
+
+    .infoInputDiv3{
+    height : 100px;
+    }
+
+    .infoInputDiv4{
+    height : 140px;
     }
 
     .infoInput{
@@ -65,6 +92,10 @@
     .infoInput2{
     width : 90px;
     float : left;
+    }
+
+    .infoInput3{
+    width : 570px;
     }
 
     .checkBtn{
@@ -79,7 +110,7 @@
     height : 50px;
     margin-left : 20px;
     margin-top : 10px;
-    padding-left : 570px;
+    padding-left : 550px;
     }
 
     .translaterSubmitBtn{
@@ -87,7 +118,6 @@
     width : 300px;
     height : 50px;
     }
-
 
 {% endblock %}
 {% block javascript %}
@@ -207,9 +237,9 @@
                     <div class="infoInputTitle">연락처 </div>
                     <div class="infoInputTitle">가능 서비스 </div>
                     <div class="infoInputTitle">가능 언어 </div>
-                    <div class="infoInputTitle">희망 번역분야 </div>
-                    <div class="infoInputTitle">학력 </div>
-                    <div class="infoInputTitle">대표 번역 경력 </div>
+                    <div class="infoInputTitle2">희망 번역분야 </div>
+                    <div class="infoInputTitle3">학력 </div>
+                    <div class="infoInputTitle4">대표 번역 경력 </div>
                     <div class="infoInputTitle">해외거주이력/</br> 어학시험성적 </div>
                 </div>
                 <div class="translaterInfoSubDiv2">
@@ -226,6 +256,40 @@
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;">
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;">
                     </div>
+                    <div class="infoInputDiv"  style="margin-top:5px;">
+                        <input type="checkbox"> <span>번역</span> <input type="checkbox" style="margin-left:20px;"> <span>교정</span>
+                    </div>
+                    <div class="infoInputDiv">
+                        <input type="checkbox"> <span>한영</span>
+                        <input type="checkbox" style="margin-left:20px;"> <span>영한</span>
+                        <input type="checkbox" style="margin-left:20px;"> <span>한일</span>
+                        <input type="checkbox" style="margin-left:20px;"> <span>일한</span>
+                        <input type="checkbox" style="margin-left:20px;"> <span>한중</span>
+                        <input type="checkbox" style="margin-left:20px;"> <span>중한</span>
+                    </div>
+                    <div class="infoInputDiv2">
+                        <input type="checkbox"> <span>일반           (자기소개서,  보고서, 이메일 등)</span></br>
+                        <input type="checkbox"> <span>경제/무역       (회사소개, 무역, 관광, 광고자료 등)</span></br>
+                        <input type="checkbox"> <span>법률           (특허, 계약서, 약관, 국제인증 등)</span></br>
+                        <input type="checkbox"> <span>문학           (정치, 교육, 역사, 종교 등)</span></br>
+                        <input type="checkbox"> <span>공학/기술    (건설, 화학, 전자 등)</span></br>
+                        <input type="checkbox"> <span>의학/ 과학   (의학, 생명,  간호 등)</span></br>
+                        <input type="checkbox"> <span>기타           (영화, 드라마, 패션 등)</span>
+                    </div>
+                    <div class="infoInputDiv3">
+                        <input type="text" class="form-control infoInput3">
+                        <input type="text" class="form-control infoInput3" style="margin-top:5px;">
+                    </div>
+                    <div class="infoInputDiv4">
+                        <input type="text" class="form-control infoInput3">
+                        <input type="text" class="form-control infoInput3" style="margin-top:5px;">
+                        <input type="text" class="form-control infoInput3" style="margin-top:5px;">
+                    </div>
+                    <div class="infoInputDiv">
+                        <input type="text" class="form-control infoInput3">
+                    </div>
+
+
                 </div>
                 <div class="usePolicy">
 

@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4fb89175-5284-4117-9b9c-0df8b47c791f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main_login_translater.html" afterPath="$PROJECT_DIR$/templates/main_login_translater.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/status_1.html" afterPath="$PROJECT_DIR$/templates/status_1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Camero.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -116,13 +114,23 @@
       <file leaf-file-name="main_login_translater.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/main_login_translater.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21582733" vertical-offset="0" max-vertical-offset="3795">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.21582733" vertical-offset="0" max-vertical-offset="4755">
+              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
               <folding>
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#3;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h4#0;n#div#0;n#div#3;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#1;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#2;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#2;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#3;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#4;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#5;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#6;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#2;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -582,10 +590,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="42" y="23" width="1233" height="777" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3173217" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3173217" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299748" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -662,6 +670,16 @@
             <element signature="n#style#0;n#h4#0;n#div#0;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#2;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#3;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#4;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#5;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#6;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -748,6 +766,16 @@
             <element signature="n#style#0;n#h4#0;n#div#0;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#2;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#3;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#4;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#5;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#6;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1041,13 +1069,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/main_login_translater.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21582733" vertical-offset="0" max-vertical-offset="3795">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.21582733" vertical-offset="0" max-vertical-offset="4755">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
           <folding>
             <element signature="n#style#0;n#h3#0;n#div#0;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h4#0;n#div#0;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#2;n#div#2;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#3;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#3;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#4;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#5;n#div#4;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#6;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#7;n#div#1;n#div#1;n#div#3;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
