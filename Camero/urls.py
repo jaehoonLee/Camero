@@ -7,7 +7,8 @@ urlpatterns = patterns('',
     #web
     url(r'^$', main_page, name='main_page'),
     url(r'^myinfo_page/', myinfo_page),
-    url(r'^budget_admin_page/', budget_admin_page),
+    url(r'^budget_admin_page/', budget_admin_page, name="admin_page"),
+    url(r'^update_translater/', update_translater),
 
     #status
     url(r'^calculate_budget/', calculate_budget),
@@ -23,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^logout_user/', logout_user),
     url(r'^register_order/', register_order),
     url(r'^update_order/(?P<status>\d+)/', update_order),
+
 
     # url(r'^TranslateWeb/', include('TranslateWeb.foo.urls')),
 

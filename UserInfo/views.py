@@ -36,7 +36,7 @@ def translater_register_user(request):
         #make customer
         nickname = request.POST['username']
         nickname = nickname.split("@")[0]
-        Translater.objects.create_translator(nickname, 0, '', request.POST['username'], False, '', '', user)
+        Translater.objects.create_translator(nickname, 0, 0, '', request.POST['username'], False, '', '', user)
 
     if user is not None:
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -45,6 +45,14 @@ def translater_register_user(request):
             return HttpResponseRedirect('/')
         return HttpResponseRedirect('/')
     return HttpResponseRedirect('/')
+
+def update_translater(request):
+    translater_id = request.POST['translater_id']
+    translaters = Translater.objects.filter(id=translater_id)
+    for translater in translaters :
+        translater.active = True
+        translater.save()
+    return redirect("admin_page")
 
 
 @csrf_exempt

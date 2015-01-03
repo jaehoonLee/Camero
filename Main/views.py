@@ -45,7 +45,7 @@ def main_page(request):
                     else:
                         complete_orders.append(order)
 
-                return render_to_response('main_login_translater.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders' : complete_orders}))
+                return render_to_response('main_login_translater.html', RequestContext(request, {'active': request.user.translater.active, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders' : complete_orders}))
             except:
                 return render_to_response('main_not_login.html', RequestContext(request))
     else :
@@ -53,8 +53,9 @@ def main_page(request):
 
 def budget_admin_page(request):
     orders = Order.objects.filter(status=5)
+    translaters = Translater.objects.filter(active=False)
 
-    return render_to_response('budget_admin.html', RequestContext(request, {'orders' : orders}))
+    return render_to_response('budget_admin.html', RequestContext(request, {'orders': orders, 'translaters': translaters}))
 
 def myinfo_page(request):
     if request.user.is_anonymous():
@@ -80,9 +81,9 @@ def makestatus(request):
     return render_to_response('status_1.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
 
 def mystatus(request, order_id):
-    order = Order.objects.filter(id=order_id)
+    order = Order.objects.filter(id=order_id)[0]
     #check user
-    if order[0].customer.user.username != request.user.username:
+    if order.customer.user.username != request.user.username:
         return HttpResponse("권한이 없습니다.")
 
     pre_orders = []
@@ -91,41 +92,41 @@ def mystatus(request, order_id):
 
     #대부분 고객이기 때문에
     for my_order in request.user.customer.order_set.all():
-        if my_order.status == 2 or my_order.status == 3:
-            pre_orders.append(my_order)
-        elif my_order.status == 4 or my_order.status == 5:
+        if order.status == 2 or order.status == 3:
+                    pre_orders.append(order)
+        elif order.status == 4 or order.status == 5 or order.status == 6:
             progress_orders.append(my_order)
         elif my_order.status == 6:
             complete_orders.append(my_order)
 
-    type = order[0].status
+    type = order.status
     if type == 1:#견적확인
         return render_to_response('status_1.html', RequestContext(request))
     elif type == 2:#번역가문의
-        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':Translater.objects.all(), 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        return render_to_response('status_2.html', RequestContext(request, {'type': type, 'order': order, 'translaters':Translater.objects.all(), 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 3:#번역가선정
-        translaters = order[0].translaters.all()
-        return render_to_response('status_3.html', RequestContext(request, {'type': type, 'order': order[0], 'translaters':translaters, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        translaters = order.translaters.all()
+        return render_to_response('status_3.html', RequestContext(request, {'type': type, 'order': order, 'translaters':translaters, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 4:#결제
-        return render_to_response('status_4.html', RequestContext(request, {'status' : 4, 'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        return render_to_response('status_4.html', RequestContext(request, {'status' : 4, 'order': order, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 5:#결제 확인
-        return render_to_response('status_4.html', RequestContext(request, {'status' : 5, 'order': order[0], 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
+        return render_to_response('status_4.html', RequestContext(request, {'status' : 5, 'order': order, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
     elif type == 6:#번역물 수령
-        messages = order[0].message_set.all()
-        return render_to_response('status_5.html', RequestContext(request, {'order': order[0], 'pre_orders': pre_orders, 'progress_orders': progress_orders, 'complete_orders': complete_orders, 'message_set': messages}))
+        messages = order.message_set.all()
+        return render_to_response('status_5.html', RequestContext(request, {'order': order, 'pre_orders': pre_orders, 'progress_orders': progress_orders, 'complete_orders': complete_orders, 'message_set': messages}))
     else:
         return redirect("main_page")
 
 def translater_mystatus(request, order_id):
-    order = Order.objects.filter(id=order_id)
+    order = Order.objects.filter(id=order_id)[0]
 
     #check user
-    translater = order[0].translaters.all()[0]
+    translater = order.translaters.all()[0]
     if translater.user.username != request.user.username:
         return HttpResponse("권한이 없습니다.")
 
-    messages = order[0].message_set.all()
-    return render_to_response('translate_detail.html', RequestContext(request, {'order': order[0], 'message_set': messages }))
+    messages = order.message_set.all()
+    return render_to_response('translate_detail.html', RequestContext(request, {'order': order, 'message_set': messages }))
 
 @csrf_exempt
 def calculate_budget(request):

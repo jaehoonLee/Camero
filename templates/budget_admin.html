@@ -7,7 +7,6 @@
 
     .adminMaindSubDiv{
     background-color:#FFFFFF;
-
     margin-top : 30px;
     }
 
@@ -32,10 +31,23 @@
 
         UpdateOrderForm.submit();
     }
+
+    function makeActive(translater_id_val)
+    {
+        var translaterUpdateForm = document.forms['TranslaterUpdateForm'];
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "translater_id";
+        input.value = translater_id_val;
+        translaterUpdateForm.appendChild(input);
+
+        translaterUpdateForm.submit();
+    }
 {% endblock %}
 {% block content %}
     <div class="adminMainDiv">
-    <h3>승인 페이지</h3>
+    <h3>비용 승인 페이지</h3>
         <div class="adminMaindSubDiv">
             <table class="table">
                 <thead>
@@ -74,7 +86,37 @@
             </table>
         </div>
     </div>
+    <div class="adminMainDiv">
+    <h3>사용자 승인 페이지</h3>
+        <div class="adminMaindSubDiv">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="20%">고객 이름</th>
+                    <th width="10%">고객 별칭</th>
+                    <th width="10%">자세한 설명</th>
+                    <th width="10%">승인</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for translater in translaters %}
+                    <tr class="body" >
+                        <td>{{translater.user.username}}</td>
+                        <td>{{translater.nickname}}</td>
+                        <td>{{translater.detailExplanation}}</td>
+                        <td><button type="button" class="btn btn-success checkBtn" onclick="javascript:makeActive({{ translater.id }});">승인</button></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <form name="UpdateOrderForm" id="UpdateOrderForm" method="POST"> {% csrf_token %}
+    </form>
+
+    <form name="TranslaterUpdateForm" id="TranslaterUpdateForm" method="POST" action="/update_translater/"> {% csrf_token %}
     </form>
 {% endblock %}

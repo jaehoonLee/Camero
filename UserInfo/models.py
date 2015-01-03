@@ -4,14 +4,15 @@ from django.contrib.auth.models import *
 
 # Create your models here.
 class TranslaterManager(models.Manager):
-    def create_translator(self, nickname, workhours, detailExplanation, email, alarmOn, udidiOS, udidand, user):
-        translator = self.model(nickname=nickname, workhours=workhours, detailExplanation=detailExplanation, email=email, alarmOn=alarmOn, udidiOS=udidiOS, udidand=udidand)
+    def create_translator(self, nickname, active, workhours, detailExplanation, email, alarmOn, udidiOS, udidand, user):
+        translator = self.model(nickname=nickname, active=active, workhours=workhours, detailExplanation=detailExplanation, email=email, alarmOn=alarmOn, udidiOS=udidiOS, udidand=udidand)
         translator.user = user
         translator.save()
         return translator
 
 class Translater(models.Model):
     nickname = models.CharField(max_length = 30)
+    active = models.BooleanField()
     user = models.OneToOneField(User)
     workhours = models.IntegerField()
     detailExplanation = models.TextField()
@@ -19,13 +20,14 @@ class Translater(models.Model):
     alarmOn = models.BooleanField(default=None)
     udidiOS = models.CharField(max_length = 200)
     udidand = models.CharField(max_length = 200)
+
     objects = TranslaterManager()
 
     def __str__(self):
         return self.nickname
 
 class TranslaterAdmin(admin.ModelAdmin):
-    list_display = ('nickname', 'workhours', 'detailExplanation', 'email', 'udidiOS', 'udidand', 'get_user')
+    list_display = ('nickname', 'active', 'workhours', 'detailExplanation', 'email', 'udidiOS', 'udidand', 'get_user')
     def get_user(self, obj):
         return obj.user.username
 admin.site.register(Translater, TranslaterAdmin)
