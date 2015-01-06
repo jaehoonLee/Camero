@@ -49,6 +49,12 @@ def main_page(request):
                 language_available = request.user.translater.language_available.split(',')
                 translate_available = request.user.translater.translate_available.split(',')
 
+                if request.user.translater.active == 0:
+                    service_available = ['0', '0']
+                    language_available = ['0', '0', '0', '0', '0', '0']
+                    translate_available = ['0', '0', '0', '0', '0', '0', '0']
+
+
                 print service_available
 
                 translate = int(service_available[0])
@@ -71,6 +77,10 @@ def main_page(request):
 
                 schools = request.user.translater.school.split('\n')
                 careers = request.user.translater.career.split('\n')
+
+                if request.user.translater.active == 0:
+                    schools=['', '']
+                    careers=['', '', '']
 
 
                 return render_to_response('main_login_translater.html', RequestContext(request, {'translate': translate, 'revision': revision,

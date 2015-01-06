@@ -59,7 +59,7 @@ def update_translater(request):
     translater_id = request.POST['translater_id']
     translaters = Translater.objects.filter(id=translater_id)
     for translater in translaters :
-        translater.active = True
+        translater.active = 2
         translater.save()
     return redirect("admin_page")
 
