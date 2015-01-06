@@ -45,7 +45,40 @@ def main_page(request):
                     else:
                         complete_orders.append(order)
 
-                return render_to_response('main_login_translater.html', RequestContext(request, {'active': request.user.translater.active, 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders' : complete_orders}))
+                service_available = request.user.translater.service_available.split(',')
+                language_available = request.user.translater.language_available.split(',')
+                translate_available = request.user.translater.translate_available.split(',')
+
+                print service_available
+
+                translate = int(service_available[0])
+                revision = int(service_available[1])
+
+                lang1 = int(language_available[0])
+                lang2 = int(language_available[1])
+                lang3 = int(language_available[2])
+                lang4 = int(language_available[3])
+                lang5 = int(language_available[4])
+                lang6 = int(language_available[5])
+
+                field1 = int(translate_available[0])
+                field2 = int(translate_available[1])
+                field3 = int(translate_available[2])
+                field4 = int(translate_available[3])
+                field5 = int(translate_available[4])
+                field6 = int(translate_available[5])
+                field7 = int(translate_available[6])
+
+                schools = request.user.translater.school.split('\n')
+                careers = request.user.translater.career.split('\n')
+
+
+                return render_to_response('main_login_translater.html', RequestContext(request, {'translate': translate, 'revision': revision,
+                                                                                                 'lang1': lang1, 'lang2': lang2, 'lang3': lang3, 'lang4': lang4, 'lang5': lang5, 'lang6': lang6,
+                                                                                                 'field1': field1, 'field2': field2, 'field3': field3, 'field4': field4, 'field5': field5, 'field6': field6, 'field7': field7,
+                                                                                                 'schools': schools, 'careers': careers,
+                                                                                                 'active': request.user.translater.active,
+                                                                                                 'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders' : complete_orders}))
             except:
                 return render_to_response('main_not_login.html', RequestContext(request))
     else :
@@ -53,9 +86,12 @@ def main_page(request):
 
 def budget_admin_page(request):
     orders = Order.objects.filter(status=5)
-    translaters = Translater.objects.filter(active=False)
+    translaters = Translater.objects.filter(active=1)
 
-    return render_to_response('budget_admin.html', RequestContext(request, {'orders': orders, 'translaters': translaters}))
+    translaters_size = len(Translater.objects.all())
+    customers_size = len(Customer.objects.all())
+
+    return render_to_response('budget_admin.html', RequestContext(request, {'translaters_size': translaters_size, 'customers_size' : customers_size, 'orders': orders, 'translaters': translaters}))
 
 def myinfo_page(request):
     if request.user.is_anonymous():

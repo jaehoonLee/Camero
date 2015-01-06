@@ -4,20 +4,28 @@ from django.contrib.auth.models import *
 
 # Create your models here.
 class TranslaterManager(models.Manager):
-    def create_translator(self, nickname, active, workhours, detailExplanation, email, alarmOn, udidiOS, udidand, user):
-        translator = self.model(nickname=nickname, active=active, workhours=workhours, detailExplanation=detailExplanation, email=email, alarmOn=alarmOn, udidiOS=udidiOS, udidand=udidand)
+    def create_translator(self, nickname, active, user):
+        translator = self.model(nickname=nickname, active=active)
         translator.user = user
         translator.save()
         return translator
 
 class Translater(models.Model):
-    nickname = models.CharField(max_length=30)
-    active = models.BooleanField()
     user = models.OneToOneField(User)
-    workhours = models.IntegerField()
-    detailExplanation = models.TextField()
-    email = models.CharField(max_length = 30)
-    alarmOn = models.BooleanField(default=None)
+    active = models.IntegerField()
+    username = models.CharField(max_length=30)
+    nickname = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30)
+    phone2 = models.CharField(max_length=30)
+    phone3 = models.CharField(max_length=30)
+    service_available = models.CommaSeparatedIntegerField(max_length=50)
+    language_available = models.CommaSeparatedIntegerField(max_length=50)
+    translate_available = models.CommaSeparatedIntegerField(max_length=50)
+    school = models.TextField()
+    career = models.TextField()
+    major = models.CharField(max_length=30)
+    lang_experience = models.TextField()
+    alarmOn = models.BooleanField(default=False)
     udidiOS = models.CharField(max_length = 200)
     udidand = models.CharField(max_length = 200)
 
@@ -27,7 +35,7 @@ class Translater(models.Model):
         return self.nickname
 
 class TranslaterAdmin(admin.ModelAdmin):
-    list_display = ('nickname', 'active', 'workhours', 'detailExplanation', 'email', 'udidiOS', 'udidand', 'get_user')
+    list_display = ('id', 'username', 'nickname', 'active', 'phone', 'phone2', 'phone3', 'service_available', 'language_available', 'translate_available', 'school', 'career', 'lang_experience', 'alarmOn', 'udidiOS', 'udidand')
     def get_user(self, obj):
         return obj.user.username
 admin.site.register(Translater, TranslaterAdmin)
@@ -41,8 +49,8 @@ class CustomerManager(models.Manager):
         return customer
 
 class Customer(models.Model):
-    nickname = models.CharField(max_length = 30)
     user = models.OneToOneField(User)
+    nickname = models.CharField(max_length=30)
     imageURL = models.CharField(max_length = 255)
     alarmOn = models.BooleanField(default=None)
     udidiOS = models.CharField(max_length = 200)

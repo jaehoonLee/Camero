@@ -1,4 +1,5 @@
 {% extends "base_status.html" %}
+{% load camerocustomfilters %}
 {% block title %}홈{% endblock %}
 {% block statuscss %}
     .welcomeDiv
@@ -133,37 +134,69 @@
 
     function checkNickname()
     {
-        /* Create a FormData instance */
-        var formData = new FormData();
-        val = $(".nicknameInput").val();
-        formData.append("nickname", val);
+    /* Create a FormData instance */
+    var formData = new FormData();
+    val = $(".nicknameInput").val();
 
-        client.open("POST", "/check_translater_nickname/", true);
-        client.send(formData);
+    if(val!='')
+    {
+    formData.append("nickname", val);
+    client.open("POST", "/check_translater_nickname/", true);
+    client.send(formData);
+    }
+    else
+    {
+    $(".translaterInfoSubDiv").css({"height" : '700px'});
+    $(".translaterInfoSubDiv2").css({"height" : '700px'});
+    $(".welcomeDiv").css({"height" : '1210px'});
+    $("#nicknameErrorDiv").css({"height" : '30px', 'display' : ''});
+
+    $("#nicknameErrorText").css({"color" : 'red' , 'display' : ''});
+    $("#nicknameErrorText").text("닉네임을 입력해주세요.")
+    }
     }
 
     client.onreadystatechange = function()
     {
     if (client.readyState == 4 && client.status == 200)
     {
-        var value = client.responseText;
-        console.log(value);
-        console.log(value == 0);
-        $("#nicknameErrorDiv").css({"height" : '30px', 'display' : ''});
-        if(value == 0){
+    var value = client.responseText;
+    console.log(value);
+    console.log(value == 0);
 
-            $("#nicknameErrorText").css({"color" : 'red' , 'display' : ''});
-            $("#nicknameErrorText").text("이미 존재하는 닉네임입니다.")
-        }
-        else {
-            $("#nicknameErrorText").css({"color" : 'green' , 'display' : ''});
-            $("#nicknameErrorText").text("사용 가능하신 닉네임입니다.")
-        }
+    $(".translaterInfoSubDiv").css({"height" : '700px'});
+    $(".translaterInfoSubDiv2").css({"height" : '700px'});
+    $(".welcomeDiv").css({"height" : '1210px'});
+
+    $("#nicknameErrorDiv").css({"height" : '30px', 'display' : ''});
+    if(value == 0){
+
+    $("#nicknameErrorText").css({"color" : 'red' , 'display' : ''});
+    $("#nicknameErrorText").text("이미 존재하는 닉네임입니다.")
+    }
+    else {
+    $("#nicknameErrorText").css({"color" : 'green' , 'display' : ''});
+    $("#nicknameErrorText").text("사용 가능하신 닉네임입니다.")
+    }
+    }
+    }
+
+    function UpdateRequest()
+    {
+    console.log("submit");
+
+    if($(".polickcheck").is(":checked") == false)
+    {
+    alert("이용약관에 동의해주시기 바랍니다.");
+    }
+    else
+    {
+    document.TranslaterActiveForm.submit();
     }
     }
 {% endblock %}
 {% block statusdiv %}
-    {% if active == True %}
+    {% if active == 2 %}
         <h4>새로운 의뢰 문의건</h4>
         <div class="panel panel-default">
             <!-- Table -->
@@ -255,13 +288,25 @@
                 </tbody>
             </table>
         </div>
-    {% else %}
-        <div class="welcomeDiv">
+    {% elif active == 1 %}
+        <div class="welcomeDiv" style="height: 300px;">
             <div class="translaterIntroDiv">
                 <h3 style="font-weight: bold;">카메로 프리랜서 회원 가입을 축하드립니다.</h3>
-                <h4 style="line-height:120%;">번역 시작에 앞서 몇 가지 정보를 입력해주세요!</br>
-                    검토 후 12시간 내에 등록해드립니다.</br>
+                <h4 style="line-height:150%;">
+                    승인 대기중입니다.</br>
+                    12시간 내 승인 여부를 이메일로 알려드리니 조금만 기다려주세요.</br>
                 </h4>
+            </div>
+        </div>
+    {% elif active == 0 %}
+
+        <div class="welcomeDiv">
+            <div class="translaterIntroDiv">
+                <form name="TranslaterActiveForm" id="TranslaterActiveForm" action="/translater_active_request/" method="POST" > {% csrf_token %}
+                    <h3 style="font-weight: bold;">카메로 프리랜서 회원 가입을 축하드립니다.</h3>
+                    <h4 style="line-height:120%;">번역 시작에 앞서 몇 가지 정보를 입력해주세요!</br>
+                        검토 후 12시간 내에 등록해드립니다.</br>
+                    </h4>
             </div>
             <div class="translaterInfoDiv">
                 <div class="translaterInfoSubDiv">
@@ -278,66 +323,62 @@
                 </div>
                 <div class="translaterInfoSubDiv2">
                     <div class="infoInputDiv">
-                        <input type="text" class="form-control infoInput">
+                        <input type="text" class="form-control infoInput" name="username" value="{{ user.translater.username}}" >
                     </div>
                     <div class="infoInputDiv">
-                        <input type="text" class="form-control infoInput nicknameInput">
+                        <input type="text" class="form-control infoInput nicknameInput" value="{{ user.translater.nickname }}" name="nickname">
                         <button type="button" class="btn btn-success checkBtn" onclick="javascript:checkNickname();">중복 확인</button>
                     </div>
                     <p id="nicknameErrorText" style="display: none;">이미 존재하는 닉네임입니다.</p>
                     <div class="infoInputDiv">
-                        <input type="text" class="form-control infoInput2">
-                        <input type="text" class="form-control infoInput2" style="margin-left:15px;">
-                        <input type="text" class="form-control infoInput2" style="margin-left:15px;">
+                        <input type="text" class="form-control infoInput2" name="phone1" value="{{user.translater.phone}}">
+                        <input type="text" class="form-control infoInput2" style="margin-left:15px;" name="phone2" value="{{user.translater.phone2}}">
+                        <input type="text" class="form-control infoInput2" style="margin-left:15px;" name="phone3" value="{{user.translater.phone3}}">
                     </div>
                     <div class="infoInputDiv"  style="margin-top:5px;">
-                        <input type="checkbox"> <span>번역</span> <input type="checkbox" style="margin-left:20px;"> <span>교정</span>
+                        <input type="checkbox" name="service_available" value="0" {% if translate %}checked{% endif %}> <span>번역</span>
+                        <input type="checkbox" style="margin-left:20px;" name="service_available" value="1" {% if revision %}checked{% endif %}> <span>교정</span>
                     </div>
                     <div class="infoInputDiv">
-                        <input type="checkbox"> <span>한영</span>
-                        <input type="checkbox" style="margin-left:20px;"> <span>영한</span>
-                        <input type="checkbox" style="margin-left:20px;"> <span>한일</span>
-                        <input type="checkbox" style="margin-left:20px;"> <span>일한</span>
-                        <input type="checkbox" style="margin-left:20px;"> <span>한중</span>
-                        <input type="checkbox" style="margin-left:20px;"> <span>중한</span>
+                        <input type="checkbox" name="language_available" value="0" {% if lang1 %}checked{% endif %}> <span>한영</span>
+                        <input type="checkbox" style="margin-left:20px;" name="language_available" value="1" {% if lang2 %}checked{% endif %}> <span>영한</span>
+                        <input type="checkbox" style="margin-left:20px;" name="language_available" value="2" {% if lang3 %}checked{% endif %}> <span>한일</span>
+                        <input type="checkbox" style="margin-left:20px;" name="language_available" value="3" {% if lang4 %}checked{% endif %}> <span>일한</span>
+                        <input type="checkbox" style="margin-left:20px;" name="language_available" value="4" {% if lang5 %}checked{% endif %}> <span>한중</span>
+                        <input type="checkbox" style="margin-left:20px;" name="language_available" value="5" {% if lang6 %}checked{% endif %}> <span>중한</span>
                     </div>
                     <div class="infoInputDiv2">
-                        <input type="checkbox"> <span>일반           (자기소개서,  보고서, 이메일 등)</span></br>
-                        <input type="checkbox"> <span>경제/무역       (회사소개, 무역, 관광, 광고자료 등)</span></br>
-                        <input type="checkbox"> <span>법률           (특허, 계약서, 약관, 국제인증 등)</span></br>
-                        <input type="checkbox"> <span>문학           (정치, 교육, 역사, 종교 등)</span></br>
-                        <input type="checkbox"> <span>공학/기술    (건설, 화학, 전자 등)</span></br>
-                        <input type="checkbox"> <span>의학/ 과학   (의학, 생명,  간호 등)</span></br>
-                        <input type="checkbox"> <span>기타           (영화, 드라마, 패션 등)</span>
+                        <input type="checkbox" name="translate_available" value="0" {% if field1 %}checked{% endif %}> <span>일반           (자기소개서,  보고서, 이메일 등)</span></br>
+                        <input type="checkbox" name="translate_available" value="1" {% if field2 %}checked{% endif %}> <span>경제/무역       (회사소개, 무역, 관광, 광고자료 등)</span></br>
+                        <input type="checkbox" name="translate_available" value="2" {% if field3 %}checked{% endif %}> <span>법률           (특허, 계약서, 약관, 국제인증 등)</span></br>
+                        <input type="checkbox" name="translate_available" value="3" {% if field4 %}checked{% endif %}> <span>문학           (정치, 교육, 역사, 종교 등)</span></br>
+                        <input type="checkbox" name="translate_available" value="4" {% if field5 %}checked{% endif %}> <span>공학/기술    (건설, 화학, 전자 등)</span></br>
+                        <input type="checkbox" name="translate_available" value="5" {% if field6 %}checked{% endif %}> <span>의학/ 과학   (의학, 생명,  간호 등)</span></br>
+                        <input type="checkbox" name="translate_available" value="6" {% if field7 %}checked{% endif %}> <span>기타           (영화, 드라마, 패션 등)</span>
                     </div>
                     <div class="infoInputDiv3">
-                        <input type="text" class="form-control infoInput3">
-                        <input type="text" class="form-control infoInput3" style="margin-top:5px;">
+                        <input type="text" class="form-control infoInput3" name="school1" value="{{schools|get_at_index:0}}">
+                        <input type="text" class="form-control infoInput3" style="margin-top:5px;" name="school2" value="{{schools|get_at_index:1}}">
                     </div>
                     <div class="infoInputDiv4">
-                        <input type="text" class="form-control infoInput3">
-                        <input type="text" class="form-control infoInput3" style="margin-top:5px;">
-                        <input type="text" class="form-control infoInput3" style="margin-top:5px;">
+                        <input type="text" class="form-control infoInput3" name="career1" value="{{careers|get_at_index:0}}">
+                        <input type="text" class="form-control infoInput3" style="margin-top:5px;" name="career2" value="{{careers|get_at_index:1}}">
+                        <input type="text" class="form-control infoInput3" style="margin-top:5px;" name="career3" value="{{careers|get_at_index:2}}">
                     </div>
                     <div class="infoInputDiv">
-                        <input type="text" class="form-control infoInput3">
+                        <input type="text" class="form-control infoInput3" name="lang_experience" value="{{user.translater.lang_experience}}">
                     </div>
-
-
                 </div>
                 <div class="usePolicy">
-
                 </div>
                 <div class="usePolicyCheck">
-                    <input type="checkbox"> <span>위의 이용약관에 동의합니다.</span>
+                    <input type="checkbox" class="polickcheck"> <span>위의 이용약관에 동의합니다.</span>
                 </div>
-                <button type="button" class="btn btn-success translaterSubmitBtn" onclick="javascript:getStatus(1, 0);">승인 요청</button>
-
-
+                </form>
+                <button type="button" class="btn btn-success translaterSubmitBtn" onclick="javascript:UpdateRequest();">승인 요청</button>
             </div>
-
-
         </div>
+
 
     {% endif %}
 
