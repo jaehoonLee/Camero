@@ -12,6 +12,7 @@ from Main.models import *
 from django.core.mail import send_mail
 
 def main_page(request):
+    print "main_page"
     if request.user.is_authenticated():
         try:
             orders = request.user.customer.order_set.all()
@@ -32,6 +33,7 @@ def main_page(request):
             return render_to_response('main_login.html', RequestContext(request, {'pre_orders': pre_orders, 'progress_orders' : progress_orders, 'complete_orders': complete_orders}))
         except:
             try:
+                print "translater"
                 #번역가라면
                 pre_orders = []
                 progress_orders = []

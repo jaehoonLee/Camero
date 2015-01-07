@@ -316,6 +316,7 @@
                     <div class="infoInputTitle">닉네임 </div>
                     <div id="nicknameErrorDiv" style="display: none;"> </div>
                     <div class="infoInputTitle">연락처 </div>
+                    <div class="infoInputTitle">입금계좌 </div>
                     <div class="infoInputTitle">가능 서비스 </div>
                     <div class="infoInputTitle">가능 언어 </div>
                     <div class="infoInputTitle2">희망 번역분야 </div>
@@ -336,6 +337,10 @@
                         <input type="text" class="form-control infoInput2" name="phone1" value="{{user.translater.phone}}">
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;" name="phone2" value="{{user.translater.phone2}}">
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;" name="phone3" value="{{user.translater.phone3}}">
+                    </div>
+                    <div class="infoInputTitle">
+                        <h5>은행명</h5>
+                        <input type="text" class="form-control infoInput2" name="phone1" value="{{user.translater.phone}}">
                     </div>
                     <div class="infoInputDiv"  style="margin-top:5px;">
                         <input type="checkbox" name="service_available" value="0" {% if translate %}checked{% endif %}> <span>번역</span>

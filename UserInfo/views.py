@@ -29,6 +29,13 @@ def customer_register_user(request):
 
 def translater_register_user(request):
     if request.method == 'POST':
+        print "transter_make"
+        username = request.POST['username']
+        password = request.POST['password']
+
+        print username
+        print password
+
         user = User.objects.create_user(username=request.POST['username'],
                                         password=request.POST['password'],
                                         email=request.POST['username'])
@@ -37,13 +44,15 @@ def translater_register_user(request):
         #make customer
         id = request.POST['username']
         nickname = id.split("@")[0]
-
+        print nickname
         #check nickname
         translater_size = len(Translater.objects.filter(nickname=nickname))
         index = 1
+
         while translater_size != 0:
             nickname = id.split("@")[0] + str(index)
             translater_size = len(Translater.objects.filter(nickname=nickname))
+            index = index + 1
 
         Translater.objects.create_translator(nickname, 0, user)
 
@@ -52,6 +61,8 @@ def translater_register_user(request):
             if user.is_active:
                 login(request, user)
             return HttpResponseRedirect('/')
+
+        return HttpResponse("HELLO")
         return HttpResponseRedirect('/')
     return HttpResponseRedirect('/')
 

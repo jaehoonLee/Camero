@@ -26,6 +26,15 @@
     text-align : center;
     }
 
+    .mybudgetInfo{
+    width : 250px;
+    height : 100px;
+    margin-left : 25px;
+    padding-top : 5px;
+    padding-left : 20px;
+    background-color: #FFFFFF;
+    }
+
     .defaultimage
     {
     width : 80px;
@@ -180,7 +189,20 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
+                {% if user.customer %}
+                    <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">+새로운 의뢰 추가</button>
+                {% elif user.translater %}
+                    <h4 style="margin-left:30px; margin-top:20px; font-weight: bold;">나의 수익</h4>
+                    <div class="mybudgetInfo">
+                        <h5 style="font-weight: bold;"> 2015년 1월 </h5>
+
+                        <div style="width:200px;">
+                        의뢰건 수:<span style="float:right;">5건</span></br>
+                        나의 수익:<span style="float:right;">150,000원</span></br>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success transbtn" onclick="javascript:getStatus(1, 0);">출금 신청</button>
+                {% endif %}
                 <!--
                  <div class="mainInfoDetail2">
 
