@@ -80,6 +80,8 @@ def translater_active_request(request):
     phone = request.POST['phone1']
     phone2 = request.POST['phone2']
     phone3 = request.POST['phone3']
+    bank = request.POST['bank']
+    bank_num = request.POST['bank_num']
     service_availables = request.POST.getlist('service_available')
     language_availables = request.POST.getlist('language_available')
     translate_availables = request.POST.getlist('translate_available')
@@ -96,6 +98,8 @@ def translater_active_request(request):
     translater.phone = phone
     translater.phone2 = phone2
     translater.phone3 = phone3
+    translater.bank = bank
+    translater.bank_num = bank_num
 
 
     service_available = ''

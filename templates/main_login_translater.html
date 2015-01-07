@@ -5,7 +5,7 @@
     .welcomeDiv
     {
     width:860px;
-    height:1180px;
+    height:1200px;
     background-color:#FFFFFF;
     margin-bottom:50px;
     }
@@ -35,7 +35,7 @@
 
     .translaterInfoSubDiv2{
     width : 600px;
-    height : 670px;
+    height : 700px;
     float : left;
     }
 
@@ -338,9 +338,12 @@
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;" name="phone2" value="{{user.translater.phone2}}">
                         <input type="text" class="form-control infoInput2" style="margin-left:15px;" name="phone3" value="{{user.translater.phone3}}">
                     </div>
-                    <div class="infoInputTitle">
-                        <h5>은행명</h5>
-                        <input type="text" class="form-control infoInput2" name="phone1" value="{{user.translater.phone}}">
+                    <div class="infoInputDiv">
+                        <input type="text" class="form-control" style="font-size:14px; width:50px;float:left;" name="bank" value="{{user.translater.bank}}">
+                        <span style="float:left; margin-left:5px; margin-top:7px;">은행,</span>
+
+                        <span style="float:left; margin-left:10px; margin-right:5px; margin-top:7px;">계좌번호 :</span>
+                        <input type="text" class="form-control" style="font-size:14px; width:140px;float:left;" name="bank_num" value="{{user.translater.bank_num}}">
                     </div>
                     <div class="infoInputDiv"  style="margin-top:5px;">
                         <input type="checkbox" name="service_available" value="0" {% if translate %}checked{% endif %}> <span>번역</span>

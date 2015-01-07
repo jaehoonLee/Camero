@@ -18,6 +18,8 @@ class Translater(models.Model):
     phone = models.CharField(max_length=30)
     phone2 = models.CharField(max_length=30)
     phone3 = models.CharField(max_length=30)
+    bank = models.CharField(max_length=30)
+    bank_num = models.CharField(max_length=70)
     service_available = models.CommaSeparatedIntegerField(max_length=50)
     language_available = models.CommaSeparatedIntegerField(max_length=50)
     translate_available = models.CommaSeparatedIntegerField(max_length=50)
@@ -35,7 +37,7 @@ class Translater(models.Model):
         return self.nickname
 
 class TranslaterAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'nickname', 'active', 'phone', 'phone2', 'phone3', 'service_available', 'language_available', 'translate_available', 'school', 'career', 'lang_experience', 'alarmOn', 'udidiOS', 'udidand')
+    list_display = ('id', 'username', 'nickname', 'active', 'phone', 'phone2', 'phone3', 'bank', 'bank_num', 'service_available', 'language_available', 'translate_available', 'school', 'career', 'lang_experience', 'alarmOn', 'udidiOS', 'udidand')
     def get_user(self, obj):
         return obj.user.username
 admin.site.register(Translater, TranslaterAdmin)
